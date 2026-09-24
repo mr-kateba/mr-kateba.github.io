@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blazma Boost</title>
+<style>
+  :root { --bg: #121216; --panel: #1c1c22; --text: #f2f2f5; --muted: #a0a0ab; --accent: #ff6d00; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--text);
+         font-family: "Segoe UI", Tahoma, sans-serif; padding: 24px 16px; }
+  main { max-width: 640px; width: 100%; text-align: center; }
+  h1 { color: var(--accent); margin: 16px 0 8px; font-size: 2.2rem; }
+  p { color: var(--muted); line-height: 1.7; margin: 0 0 24px; }
+  .cmd { display: flex; gap: 8px; align-items: stretch; background: var(--panel); border: 1px solid #2e2e38;
+         border-radius: 10px; padding: 8px; direction: ltr; }
+  code { flex: 1; font-family: Consolas, monospace; font-size: 1.05rem; padding: 10px; text-align: left; overflow-x: auto; white-space: nowrap; }
+  button { background: var(--accent); color: #fff; border: 0; border-radius: 6px; padding: 0 18px; font-size: 1rem; cursor: pointer; font-family: inherit; }
+  ol { text-align: right; color: var(--muted); line-height: 1.9; margin: 24px auto; padding-inline-start: 1.2em; max-width: 480px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 100 100" width="96" height="96" aria-hidden="true">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB300"/><stop offset="1" stop-color="#FF3D00"/></linearGradient></defs>
+    <path d="M 50,3 L 91,26.5 L 91,73.5 L 50,97 L 9,73.5 L 9,26.5 Z" fill="url(#g)"/>
+    <path d="M 57,14 L 27,55 L 46,55 L 40,86 L 73,43 L 54,43 L 61,14 Z" fill="#fff"/>
+  </svg>
+  <h1>Blazma Boost</h1>
+  <p>أداة ويندوز عربية للقيمرز: تثبيت البرامج، تحسين الأداء، وإعدادات الألعاب من واجهة وحدة.</p>
+  <div class="cmd">
+    <code id="cmd">irm mr-kateba.github.io/win | iex</code>
+    <button type="button" id="copy">نسخ</button>
+  </div>
+  <ol>
+    <li>كليك يمين على زر ابدأ واختر <b>Terminal (Admin)</b></li>
+    <li>الصق الأمر واضغط Enter</li>
+  </ol>
+  <p><a href="https://github.com/mr-kateba/Blazma-Boost">صفحة المشروع على GitHub</a></p>
+</main>
+<script>
+  document.getElementById("copy").addEventListener("click", function () {
+    var button = this;
+    navigator.clipboard.writeText(document.getElementById("cmd").textContent).then(function () {
+      button.textContent = "تم النسخ";
+      setTimeout(function () { button.textContent = "نسخ"; }, 1500);
+    });
+  });
+</script>
+</body>
+</html>

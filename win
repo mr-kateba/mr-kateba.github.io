@@ -1,0 +1,9 @@
+# Blazma Boost launcher
+#   irm mr-kateba.github.io/win | iex
+#   & ([ScriptBlock]::Create((irm mr-kateba.github.io/win))) -Preset Gaming
+#
+# Runs the latest Blazma Boost release, so this file never needs updating.
+# Source: https://github.com/mr-kateba/Blazma-Boost
+
+$releaseUrl = 'https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/winutil.ps1'
+& ([ScriptBlock]::Create((Invoke-RestMethod -Uri $releaseUrl))) @args
