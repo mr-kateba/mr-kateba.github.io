@@ -2,7 +2,7 @@
 
 The Blazma tools site: https://mr-kateba.github.io
 
-Lists Blazma Boost, Blazma Get, Blazma Cyber, blazma.nt and Blazma Crosshair with a short description and links.
+Lists Blazma Boost, Blazma AI, Blazma Get, Blazma Cyber, blazma.nt and Blazma Crosshair with a short description and links.
 
 It also serves the short launcher for [Blazma Boost](https://github.com/mr-kateba/Blazma-Boost):
 
