@@ -115,7 +115,7 @@ html[dir=ltr] .item .go { direction: ltr; }
 .prose .note { display: block; margin-top: 6px; font-size: .7rem; color: var(--faint); opacity: .7; }
 
 /* ---------- cover: Dhat al-Imad on the left, card on the right (bright, as in the first preview) */
-body.has-cover .backdrop.has-image { background-size: cover; background-position: 15% 70%; }
+body.has-cover .backdrop.has-image { background-size: auto 118%; background-position: 12% 40%; }
 body.has-cover .backdrop.has-image::after { background: linear-gradient(270deg, rgba(8,8,10,.85) 0%, rgba(8,8,10,.55) 40%, rgba(8,8,10,.15) 75%); }
 body.has-cover .embers { opacity: .45; }
 body.has-cover .stage { display: flex; justify-content: flex-start; padding-inline: clamp(16px, 5vw, 80px); }
