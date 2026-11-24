@@ -3,165 +3,62 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>أدوات بلازما</title>
-<meta name="description" content="أدوات ويندوز عربية مجانية ومفتوحة المصدر من تطوير kateba: Blazma Boost وBlazma AI وBlazma Get وBlazma Cyber وblazma.nt وBlazma Crosshair وBlazma Animation وBlazma Sandbox.">
+<title>kateba — أدوات بلازما واستوديو نخلة</title>
+<meta name="description" content="أدوات ويندوز عربية مجانية ومفتوحة المصدر من تطوير kateba، وألعاب استوديو نخلة.">
 <meta name="author" content="kateba (mr-kateba)">
+<meta name="theme-color" content="#121216">
 <link rel="icon" href="logos/boost.svg" type="image/svg+xml">
-<style>
-  :root { --bg: #121216; --panel: #1b1b21; --panel-2: #23232b; --line: #2e2e38; --text: #f2f2f5; --muted: #a0a0ab; --accent: #ff6d00; --accent-2: #ffb300; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font-family: "Segoe UI", Tahoma, sans-serif; line-height: 1.7; }
-  a { color: var(--accent); }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
-
-  header { text-align: center; padding: 56px 0 32px; }
-  header img { width: 88px; height: 88px; }
-  header h1 { margin: 12px 0 4px; font-size: 2.2rem; color: var(--accent); }
-  header p { margin: 0 auto; color: var(--muted); max-width: 560px; }
-
-  .tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding-bottom: 48px; }
-  @media (max-width: 720px) { .tools { grid-template-columns: minmax(0, 1fr); } }
-  .tool { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px; transition: border-color .2s, transform .2s; }
-  .tool:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .tool.featured { grid-column: 1 / -1; }
-  .head { display: flex; align-items: center; gap: 14px; }
-  .head img { width: 56px; height: 56px; flex: none; border-radius: 12px; }
-  .head h2 { margin: 0; font-size: 1.3rem; }
-  .tag { display: inline-block; margin-top: 2px; font-size: .8rem; color: var(--accent-2); background: rgba(255, 179, 0, .1); border-radius: 999px; padding: 1px 10px; }
-  .tool p { margin: 0; color: var(--muted); flex: 1; }
-
-  .cmd { display: flex; gap: 8px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 6px; direction: ltr; }
-  .cmd code { flex: 1; min-width: 0; font-family: Consolas, monospace; padding: 8px; overflow-x: auto; white-space: nowrap; }
-
-  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
-  .btn { display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; padding: 8px 16px; font: inherit; font-size: .95rem; text-decoration: none; cursor: pointer; border: 1px solid var(--line); background: var(--panel-2); color: var(--text); }
-  .btn:hover { border-color: var(--accent); }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .btn.primary:hover { background: #ff8124; }
-
-  footer { border-top: 1px solid var(--line); text-align: center; color: var(--muted); padding: 24px 0 40px; font-size: .95rem; }
-</style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <img src="logos/boost.svg" alt="">
-    <h1>أدوات بلازما</h1>
-    <p>أدوات ويندوز عربية، مجانية ومفتوحة المصدر، بدون حسابات وبدون تتبع.</p>
-  </header>
 
-  <main class="tools">
-    <article class="tool featured">
-      <div class="head">
-        <img src="logos/boost.svg" alt="">
-        <div><h2>Blazma Boost</h2><span class="tag">تحسين ويندوز والألعاب</span></div>
-      </div>
-      <p>تثبيت أكثر من 200 برنامج بضغطة، تحسينات الأداء والألعاب مع إمكانية التراجع، مواصفات جهازك، وحرارة كرت الشاشة والمعالج مباشرة. شغّله بالأمر هذا من PowerShell كمسؤول:</p>
-      <div class="cmd">
-        <code id="cmd">irm mr-kateba.github.io/win | iex</code>
-        <button type="button" class="btn primary" id="copy">نسخ</button>
-      </div>
-      <div class="actions">
-        <a class="btn primary" href="https://github.com/mr-kateba/Blazma-Boost/releases/latest/download/BlazmaBoost.zip">تحميل</a>
-        <a class="btn" href="https://github.com/mr-kateba/Blazma-Boost">صفحة الأداة</a>
-      </div>
-    </article>
+<div id="gate" class="gate" role="button" tabindex="0" aria-label="ادخل"><span class="gate-text">اضغط للدخول</span></div>
 
-    <article class="tool featured">
-      <div class="head">
-        <img src="logos/ai.svg" alt="">
-        <div><h2>Blazma AI</h2><span class="tag">ذكاء اصطناعي على جهازك</span></div>
-      </div>
-      <p>محادثة مع ذكاء اصطناعي يشتغل على كرت الشاشة أو المعالج حقك، بدون اشتراك ومحادثاتك ما تطلع من جهازك. يفهم الصور والملفات ويرسم، ومعه لوحة مراقبة للجهاز وVS Code كامل داخل البرنامج.</p>
-      <div class="actions">
-        <a class="btn primary" href="https://github.com/mr-kateba/blazma-ai/releases">تحميل</a>
-        <a class="btn" href="https://github.com/mr-kateba/blazma-ai">صفحة الأداة</a>
-      </div>
-    </article>
+<div class="backdrop" id="backdrop" aria-hidden="true"></div>
+<canvas id="embers" class="embers" aria-hidden="true"></canvas>
 
-    <article class="tool">
-      <div class="head">
-        <img src="logos/get.svg" alt="">
-        <div><h2>Blazma Get</h2><span class="tag">مدير تحميل</span></div>
-      </div>
-      <p>مدير تحميل مجاني بواجهة عربية، بديل لـ IDM بدون كراك وبدون فيروسات، ويحمّل أسرع بتقسيم الملف.</p>
-      <div class="actions">
-        <a class="btn primary" href="https://github.com/mr-kateba/Blazma-Get/releases/latest">تحميل</a>
-        <a class="btn" href="https://github.com/mr-kateba/Blazma-Get">صفحة الأداة</a>
-      </div>
-    </article>
+<main class="stage">
+  <section class="card" id="card">
+    <div class="avatar-wrap"><img id="avatar" class="avatar" src="assets/avatar.svg" alt=""></div>
+    <h1 class="name">kateba</h1>
+    <p class="bio">أدوات ويندوز عربية مجانية ومفتوحة المصدر، وألعاب من استوديو نخلة.</p>
 
-    <article class="tool">
-      <div class="head">
-        <img src="logos/cyber.svg" alt="">
-        <div><h2>Blazma Cyber</h2><span class="tag">أمن سيبراني</span></div>
-      </div>
-      <p>منصة أمن دفاعي في تطبيق واحد: تحليل الملفات، فحص Defender وYARA، التحليل الجنائي وأدوات الشبكة.</p>
-      <div class="actions">
-        <a class="btn primary" href="https://github.com/mr-kateba/Blazma-Cyber/releases/latest">تحميل</a>
-        <a class="btn" href="https://github.com/mr-kateba/Blazma-Cyber">صفحة الأداة</a>
-      </div>
-    </article>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-tab="tools">أدوات بلازما</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="games">ألعاب استوديو نخلة</button>
+    </nav>
+    <div class="panel active" id="tab-tools" role="tabpanel"><ul class="list" id="tools"></ul></div>
+    <div class="panel" id="tab-games" role="tabpanel"><ul class="list" id="games"></ul></div>
+  </section>
+</main>
 
-    <article class="tool">
-      <div class="head">
-        <img src="logos/nt.svg" alt="">
-        <div><h2>blazma.nt</h2><span class="tag">مراقبة الشبكة</span></div>
-      </div>
-      <p>يعرض الأجهزة المتصلة بشبكتك، ومع مين تتكلم، وأي ترافيك يمشي بدون تشفير. للقراءة فقط، ويتحكم في الراوتر حقك من خلال واجهته الرسمية.</p>
-      <div class="actions">
-        <a class="btn" href="https://github.com/mr-kateba/blazma-nt">صفحة الأداة</a>
-      </div>
-    </article>
-
-    <article class="tool">
-      <div class="head">
-        <img src="logos/crosshair.svg" alt="">
-        <div><h2>Blazma Crosshair</h2><span class="tag">ألعاب</span></div>
-      </div>
-      <p>علامة تصويب (Crosshair) خفيفة فوق أي لعبة، بخمسة أشكال وأنماط جاهزة ومعاينة حية. آمنة مع الألعاب: ما تلمس ذاكرة اللعبة.</p>
-      <div class="actions">
-        <a class="btn primary" href="https://github.com/mr-kateba/blazma-Crosshair/releases/latest">تحميل</a>
-        <a class="btn" href="https://github.com/mr-kateba/blazma-Crosshair">صفحة الأداة</a>
-      </div>
-    </article>
-    <article class="tool">
-      <div class="head">
-        <img src="logos/animation.svg" alt="">
-        <div><h2>Blazma Animation</h2><span class="tag">أنيميشن ثلاثي الأبعاد</span></div>
-      </div>
-      <p>استوديو لتحريك الشخصيات ثلاثية الأبعاد: حرّك الشخصية بنفسك أو اكتب الحركة بالعربي والذكاء الاصطناعي على جهازك يسويها، ثم صدّرها لـ Godot وUnity وUnreal.</p>
-      <div class="actions">
-        <a class="btn primary" href="https://github.com/mr-kateba/blazma-Animation/releases/latest">تحميل</a>
-        <a class="btn" href="https://github.com/mr-kateba/blazma-Animation">صفحة الأداة</a>
-      </div>
-    </article>
-    <article class="tool">
-      <div class="head">
-        <img src="logos/sandbox.svg" alt="">
-        <div><h2>Blazma Sandbox</h2><span class="tag">تحليل الملفات المشبوهة</span></div>
-      </div>
-      <p>افحص أي ملف أو رابط مشبوه بأمان: يشغّله داخل بيئة معزولة تنحذف بعد الاستخدام، يراقب وش يسوي، ويطلع لك تقرير واضح بالعربي.</p>
-      <div class="actions">
-        <a class="btn primary" href="https://github.com/mr-kateba/Blazma-Sandbox/releases/latest">تحميل</a>
-        <a class="btn" href="https://github.com/mr-kateba/Blazma-Sandbox">صفحة الأداة</a>
-      </div>
-    </article>
-  </main>
-</div>
-
-<footer>
-  تطوير <bdi><a href="https://github.com/mr-kateba">kateba (@mr-kateba)</a></bdi>
+<footer class="player disabled" id="player">
+  <div class="track">
+    <div class="disc"><img id="cover" src="assets/avatar.svg" alt=""></div>
+    <div class="meta"><div class="title" id="title">—</div><div class="artist" id="artist"></div></div>
+  </div>
+  <div class="controls">
+    <button class="ctl" id="prev" aria-label="السابق"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
+    <button class="ctl play" id="play" aria-label="تشغيل"><svg viewBox="0 0 24 24"><path id="playPath" d="M8 5v14l11-7z"/></svg></button>
+    <button class="ctl" id="next" aria-label="التالي"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
+  </div>
+  <div class="seek">
+    <span class="time" id="cur">0:00</span>
+    <input type="range" id="bar" min="0" max="1000" value="0" aria-label="التقدّم">
+    <span class="time" id="dur">0:00</span>
+  </div>
+  <div class="extra">
+    <button class="ctl small" id="mute" aria-label="كتم"><svg viewBox="0 0 24 24"><path id="volPath" d="M4 9v6h4l5 5V4L8 9zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
+    <input type="range" id="vol" min="0" max="100" value="70" aria-label="الصوت">
+    <button class="ctl small" id="listBtn" aria-label="قائمة الأناشيد"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-6v7.2A3 3 0 1 0 19 20V12h3v-2z"/></svg></button>
+  </div>
+  <div class="playlist" id="playlist" hidden>
+    <div class="playlist-head">الأناشيد</div>
+    <ol id="tracks"></ol>
+  </div>
 </footer>
 
-<script>
-  document.getElementById("copy").addEventListener("click", function () {
-    var button = this;
-    navigator.clipboard.writeText(document.getElementById("cmd").textContent).then(function () {
-      button.textContent = "تم النسخ";
-      setTimeout(function () { button.textContent = "نسخ"; }, 1500);
-    });
-  });
-</script>
+<audio id="audio" preload="metadata"></audio>
+<script src="assets/site.js"></script>
 </body>
 </html>
