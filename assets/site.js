@@ -27,18 +27,30 @@
   }
 
   // ------------------------------------------------------------------ lists
+  var ICON = {
+    download: "M11 4h2v9l3.5-3.5 1.4 1.4L12 16.8l-5.9-5.9 1.4-1.4L11 13zM5 18h14v2H5z",
+    page: "M14 4h6v6h-2V7.4l-7.3 7.3-1.4-1.4L16.6 6H14zM5 6h6v2H6v10h10v-5h2v7H4V6z",
+    copy: "M8 3h11v13h-2V5H8zM4 7h11v14H4zm2 2v10h7V9z"
+  };
+  function iconBtn(tag, cls, path, label, href) {
+    var b = el(tag, "icon-btn" + (cls ? " " + cls : ""));
+    b.title = label; b.setAttribute("aria-label", label);
+    if (tag === "a") { b.href = href; b.target = "_blank"; b.rel = "noopener"; } else b.type = "button";
+    b.innerHTML = '<svg viewBox="0 0 24 24"><path d="' + path + '"/></svg>';
+    return b;
+  }
   TOOLS.forEach(function (t) {
     var li = el("li", "item");
     var img = el("img"); img.src = "logos/" + t.logo + ".svg"; img.alt = "";
     var info = el("div", "info"); info.appendChild(el("div", "t", t.name)); info.appendChild(el("div", "d", t.desc));
     var go = el("div", "go");
     if (t.copy) {
-      var c = el("button", "pill", "نسخ الأمر"); c.type = "button"; c.title = t.copy;
+      var c = iconBtn("button", "", ICON.copy, "نسخ أمر التشغيل");
       c.onclick = function () { navigator.clipboard.writeText(t.copy).then(function () { toast("تم نسخ الأمر — الصقه في PowerShell كمسؤول"); }); };
       go.appendChild(c);
     }
-    if (t.download) { var d = el("a", "pill primary", "تحميل"); d.href = t.download; d.target = "_blank"; d.rel = "noopener"; go.appendChild(d); }
-    var p = el("a", "pill", "الصفحة"); p.href = "https://github.com/mr-kateba/" + t.repo; p.target = "_blank"; p.rel = "noopener"; go.appendChild(p);
+    if (t.download) go.appendChild(iconBtn("a", "primary", ICON.download, "تحميل", t.download));
+    go.appendChild(iconBtn("a", "", ICON.page, "صفحة الأداة", "https://github.com/mr-kateba/" + t.repo));
     li.appendChild(img); li.appendChild(info); li.appendChild(go);
     $("tools").appendChild(li);
   });
@@ -141,7 +153,7 @@
 
   var ready = fetch("nasheeds/list.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (data) {
     list = (data.tracks || []).filter(function (t) { return t && t.file && t.title; });
-    if (data.background) { var b = $("backdrop"); b.style.backgroundImage = "url('" + data.background + "')"; b.classList.add("has-image"); }
+    if (data.background) { var b = $("backdrop"); b.style.backgroundImage = "url('" + data.background + "')"; b.classList.add("has-image"); document.body.classList.add("has-bg"); }
     if (data.avatar) { $("avatar").src = data.avatar; $("cover").src = data.avatar; }
     render();
     if (list.length) { $("player").classList.remove("disabled"); load(Math.min(idx, list.length - 1), false); }
