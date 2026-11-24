@@ -111,3 +111,5 @@ body.entered .card { opacity: 1; transform: none; }
 .foot { margin: 16px 0 0; }
 .foot a { color: var(--muted); }
 html[dir=ltr] .item .go { direction: ltr; }
+
+.prose .note { display: block; margin-top: 6px; font-size: .7rem; color: var(--faint); opacity: .7; }

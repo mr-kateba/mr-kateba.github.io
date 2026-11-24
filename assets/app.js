@@ -37,9 +37,10 @@
       soon: "قريباً", soonText: "ألعاب استوديو نخلة في الطريق.", play: "العب",
       foot: "تطوير \u2068kateba\u2069",
       about: [
-        "أنا <b>kateba</b>، مطوّر من ليبيا. أصنع أدوات ويندوز عربية مجانية تحت اسم <b>بلازما</b>، وألعاب تحت اسم <b>استوديو نخلة</b>. أستعين بالذكاء الاصطناعي في البرمجة والتصميم، والفكرة والقرار والتجربة مني.",
+        "أنا <b>kateba</b>، مطوّر من ليبيا. أصنع أدوات ويندوز عربية مجانية تحت اسم <b>بلازما</b>، وألعاب تحت اسم <b>استوديو نخلة</b>.",
         "كل أدوات بلازما مجانية بالكامل ومفتوحة المصدر على GitHub: تقدر تقرأ الكود، وتحمّل من الإصدارات الرسمية بس، وما في حسابات ولا إعلانات ولا تتبع.",
-        "الهدف بسيط: أدوات بواجهة عربية حقيقية، بنفس جودة البرامج العالمية، ومتاحة للجميع."
+        "الهدف بسيط: أدوات بواجهة عربية حقيقية، بنفس جودة البرامج العالمية، ومتاحة للجميع.",
+        "<small class=\"note\">بمساعدة الذكاء الاصطناعي.</small>"
       ],
       faq: [
         ["هل الأدوات مجانية فعلاً؟", "نعم، كلها مجانية بالكامل، بدون نسخة مدفوعة ولا اشتراك ولا إعلانات."],
@@ -58,9 +59,10 @@
       soon: "Coming soon", soonText: "Nakhla Studio games are on the way.", play: "Play",
       foot: "Made by kateba",
       about: [
-        "I'm <b>kateba</b>, a developer from Libya. I make free Arabic Windows tools under the name <b>Blazma</b>, and games under <b>Nakhla Studio</b>. AI helps me with the coding and design; the ideas, decisions and testing are mine.",
+        "I'm <b>kateba</b>, a developer from Libya. I make free Arabic Windows tools under the name <b>Blazma</b>, and games under <b>Nakhla Studio</b>.",
         "Every Blazma tool is completely free and open source on GitHub: you can read the code, download only from the official releases, and there are no accounts, ads or tracking.",
-        "The goal is simple: tools with a real Arabic interface, built to the same standard as the best software, available to everyone."
+        "The goal is simple: tools with a real Arabic interface, built to the same standard as the best software, available to everyone.",
+        "<small class=\"note\">Made with the help of AI.</small>"
       ],
       faq: [
         ["Are the tools really free?", "Yes, all of them, with no paid edition, subscription or ads."],
