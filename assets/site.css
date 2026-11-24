@@ -130,3 +130,18 @@ input[type=range]::-moz-range-thumb { width: 13px; height: 13px; border: 0; bord
   .name { font-size: 1.9rem; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ---------- YouTube mini window (kept visible, bottom-left, above the player) */
+.video { position: fixed; left: 16px; bottom: 96px; z-index: 9; width: 240px; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--line-2); background: #000; box-shadow: 0 16px 40px rgba(0,0,0,.55);
+  opacity: .0; transform: translateY(12px) scale(.96); transition: opacity .5s ease, transform .5s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
+.video.shown { opacity: 1; transform: none; pointer-events: auto; }
+.video:not(.playing) iframe { filter: saturate(.6) brightness(.8); transition: filter .4s; }
+.video iframe { display: block; width: 240px; height: 135px; border: 0; }
+.video-close { position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; border: 0; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(0,0,0,.55); color: #fff; cursor: pointer; opacity: 0; transition: opacity .2s; }
+.video:hover .video-close { opacity: 1; }
+.video-close svg { width: 15px; height: 15px; fill: currentColor; }
+.disc img { transition: opacity .3s; }
+.title, .artist { transition: opacity .3s; }
+@media (max-width: 760px) { .video { left: 12px; bottom: 132px; width: 200px; } .video iframe { width: 200px; height: 113px; } }

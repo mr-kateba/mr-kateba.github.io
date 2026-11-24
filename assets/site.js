@@ -1,5 +1,5 @@
 // mr-kateba.github.io — profile page: tools/games lists, nasheed player.
-// Edit the content here: TOOLS, GAMES, and nasheeds/list.json for the player.
+// Edit the content here: TOOLS, GAMES, and nasheeds/list.json for the player (files or YouTube).
 (function () {
   "use strict";
 
@@ -84,26 +84,116 @@
   })();
 
   // ------------------------------------------------------------------ player
-  var audio = $("audio"), list = [], idx = 0, volume = 0.7;
+  // Tracks come from nasheeds/list.json. Each track is either a file ({ "file": "nasheeds/1.mp3" })
+  // or a YouTube video ({ "youtube": "VIDEO_ID", "fallback": ["OTHER_ID"] }). One engine interface
+  // hides the difference; volume fades in/out on play, pause and track change.
+  var audio = $("audio"), list = [], idx = 0, volume = 0.7, muted = false, seeking = false, wantPlay = false;
   var PLAY = "M8 5v14l11-7z", PAUSE = "M6 5h4v14H6zm8 0h4v14h-4z";
   var VOL = "M4 9v6h4l5 5V4L8 9zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z", MUTED = "M4 9v6h4l5 5V4L8 9zm15.6 3 2.4-2.4-1.4-1.4-2.4 2.4-2.4-2.4-1.4 1.4 2.4 2.4-2.4 2.4 1.4 1.4 2.4-2.4 2.4 2.4 1.4-1.4z";
-  function fmt(s) { if (!isFinite(s)) return "0:00"; s = Math.floor(s); return Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2); }
+  function fmt(s) { if (!isFinite(s) || s < 0) return "0:00"; s = Math.floor(s); return Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2); }
   function paint(r) { r.style.setProperty("--p", (r.value - r.min) / (r.max - r.min) * 100 + "%"); }
   try { var saved = JSON.parse(localStorage.getItem("kateba.player") || "{}"); if (saved.vol != null) volume = saved.vol; if (saved.idx != null) idx = saved.idx; } catch (_) {}
   function save() { try { localStorage.setItem("kateba.player", JSON.stringify({ vol: volume, idx: idx })); } catch (_) {} }
-  audio.volume = volume; $("vol").value = Math.round(volume * 100); paint($("vol"));
+  $("vol").value = Math.round(volume * 100); paint($("vol"));
+
+  // ---- fade: gain 0..1 multiplied with the user volume
+  var gain = 0, fadeTo = 0, fadeDone = null;
+  function level() { return muted ? 0 : volume * gain; }
+  function fade(target, ms, then) {
+    fadeTo = target; fadeDone = then || null;
+    var from = gain, t0 = performance.now();
+    (function step(now) {
+      if (fadeTo !== target) return;
+      var k = Math.min(1, (now - t0) / ms); gain = from + (target - from) * (k * (2 - k));
+      engine.setVolume(level());
+      if (k < 1) requestAnimationFrame(step); else if (fadeDone) { var f = fadeDone; fadeDone = null; f(); }
+    })(t0);
+  }
+
+  // ---- file engine
+  var fileEngine = {
+    load: function (t) { audio.src = t.file; },
+    play: function () { return audio.play(); }, pause: function () { audio.pause(); },
+    time: function () { return audio.currentTime; }, duration: function () { return audio.duration; },
+    seek: function (s) { audio.currentTime = s; }, setVolume: function (v) { audio.volume = Math.max(0, Math.min(1, v)); },
+    stop: function () { audio.pause(); audio.removeAttribute("src"); audio.load(); }
+  };
+  audio.addEventListener("play", function () { setPlaying(true); });
+  audio.addEventListener("pause", function () { if (engine === fileEngine) setPlaying(false); });
+  audio.addEventListener("ended", function () { next(); });
+  audio.addEventListener("error", function () { if (engine === fileEngine && audio.getAttribute("src")) failed(); });
+
+  // ---- YouTube engine (official IFrame API; the small video stays visible, as YouTube requires)
+  var yt = null, ytReady = null, ytIds = [], ytTry = 0;
+  function loadYouTube() {
+    if (ytReady) return ytReady;
+    ytReady = new Promise(function (resolve) {
+      window.onYouTubeIframeAPIReady = function () {
+        yt = new YT.Player("ytFrame", {
+          width: 240, height: 135,
+          playerVars: { playsinline: 1, rel: 0, modestbranding: 1, controls: 0, disablekb: 1, iv_load_policy: 3, fs: 0 },
+          events: {
+            onReady: function () { resolve(yt); },
+            onStateChange: function (e) {
+              if (engine !== ytEngine) return;
+              if (e.data === YT.PlayerState.PLAYING) setPlaying(true);
+              else if (e.data === YT.PlayerState.PAUSED) setPlaying(false);
+              else if (e.data === YT.PlayerState.ENDED) next();
+            },
+            onError: function () { if (engine === ytEngine) { if (++ytTry < ytIds.length) { yt.loadVideoById(ytIds[ytTry]); if (!wantPlay) yt.pauseVideo(); } else failed(); } }
+          }
+        });
+      };
+      var s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+    });
+    return ytReady;
+  }
+  var ytEngine = {
+    load: function (t) {
+      ytIds = [t.youtube].concat(t.fallback || []); ytTry = 0;
+      $("video").hidden = false; requestAnimationFrame(function () { $("video").classList.add("shown"); });
+      return loadYouTube().then(function (p) { p.setVolume(level() * 100); if (wantPlay) p.loadVideoById(ytIds[0]); else p.cueVideoById(ytIds[0]); });
+    },
+    play: function () { return loadYouTube().then(function (p) { p.playVideo(); }); },
+    pause: function () { if (yt) yt.pauseVideo(); },
+    time: function () { return yt && yt.getCurrentTime ? yt.getCurrentTime() : 0; },
+    duration: function () { return yt && yt.getDuration ? yt.getDuration() : 0; },
+    seek: function (s) { if (yt) yt.seekTo(s, true); },
+    setVolume: function (v) { if (yt && yt.setVolume) { yt.setVolume(Math.round(v * 100)); if (yt.isMuted && yt.isMuted()) yt.unMute(); } },
+    stop: function () { if (yt && yt.stopVideo) yt.stopVideo(); $("video").classList.remove("shown"); $("video").hidden = true; }
+  };
+
+  var engine = fileEngine;
+  function setPlaying(on) {
+    $("playPath").setAttribute("d", on ? PAUSE : PLAY);
+    $("player").classList.toggle("playing", on);
+    $("video").classList.toggle("playing", on);
+  }
+  function failed() { toast("تعذّر تشغيل: " + list[idx].title); setPlaying(false); }
 
   function load(i, autoplay) {
     if (!list.length) return;
-    idx = (i + list.length) % list.length;
-    var t = list[idx];
-    audio.src = t.file;
-    $("title").textContent = t.title; $("artist").textContent = t.artist || "";
-    $("cover").src = t.cover || $("avatar").src;
-    document.querySelectorAll("#tracks li").forEach(function (li, k) { li.classList.toggle("current", k === idx); });
-    save();
-    if (autoplay) audio.play().catch(function () {});
+    var go = function () {
+      idx = (i + list.length) % list.length;
+      var t = list[idx], nextEngine = t.youtube ? ytEngine : fileEngine;
+      if (engine !== nextEngine) engine.stop();
+      engine = nextEngine; wantPlay = !!autoplay; gain = autoplay ? 0 : 1;
+      $("title").textContent = t.title; $("artist").textContent = t.artist || "";
+      $("cover").src = t.cover || (t.youtube ? "https://i.ytimg.com/vi/" + t.youtube + "/hqdefault.jpg" : $("avatar").src);
+      $("bar").value = 0; paint($("bar")); $("cur").textContent = "0:00"; $("dur").textContent = "0:00";
+      document.querySelectorAll("#tracks li").forEach(function (li, k) { li.classList.toggle("current", k === idx); });
+      save();
+      Promise.resolve(engine.load(t)).then(function () { if (autoplay) play(); });
+    };
+    if (wantPlay && $("player").classList.contains("playing")) fade(0, 350, go); else go();
   }
+  function play() {
+    wantPlay = true; engine.setVolume(level());
+    Promise.resolve(engine.play()).then(function () { fade(1, 900); }).catch(function () { wantPlay = false; });
+  }
+  function pause() { wantPlay = false; fade(0, 400, function () { engine.pause(); }); }
+  function next() { load(idx + 1, true); }
+
   function render() {
     var ol = $("tracks"); ol.textContent = "";
     if (!list.length) { ol.appendChild(el("li", "none", "ما في أناشيد بعد.")); return; }
@@ -114,24 +204,21 @@
     });
   }
 
-  $("play").onclick = function () { if (!list.length) return; if (audio.paused) audio.play().catch(function () {}); else audio.pause(); };
-  $("next").onclick = function () { load(idx + 1, true); };
-  $("prev").onclick = function () { if (audio.currentTime > 3) audio.currentTime = 0; else load(idx - 1, true); };
-  audio.addEventListener("ended", function () { load(idx + 1, true); });
-  audio.addEventListener("play", function () { $("playPath").setAttribute("d", PAUSE); $("player").classList.add("playing"); });
-  audio.addEventListener("pause", function () { $("playPath").setAttribute("d", PLAY); $("player").classList.remove("playing"); });
-  audio.addEventListener("loadedmetadata", function () { $("dur").textContent = fmt(audio.duration); });
-  audio.addEventListener("timeupdate", function () {
-    $("cur").textContent = fmt(audio.currentTime);
-    if (!seeking && audio.duration) { $("bar").value = audio.currentTime / audio.duration * 1000; paint($("bar")); }
-  });
-  audio.addEventListener("error", function () { if (list.length) toast("تعذّر تشغيل: " + list[idx].title); });
-  var seeking = false;
-  $("bar").addEventListener("input", function () { seeking = true; paint(this); $("cur").textContent = fmt(this.value / 1000 * (audio.duration || 0)); });
-  $("bar").addEventListener("change", function () { if (audio.duration) audio.currentTime = this.value / 1000 * audio.duration; seeking = false; });
-  $("vol").addEventListener("input", function () { volume = this.value / 100; audio.volume = volume; audio.muted = false; paint(this); setVolIcon(); save(); });
-  $("mute").onclick = function () { audio.muted = !audio.muted; setVolIcon(); };
-  function setVolIcon() { $("volPath").setAttribute("d", audio.muted || volume === 0 ? MUTED : VOL); }
+  $("play").onclick = function () { if (!list.length) return; if (wantPlay) pause(); else play(); };
+  $("next").onclick = next;
+  $("prev").onclick = function () { if (engine.time() > 3) engine.seek(0); else load(idx - 1, true); };
+  $("videoClose").onclick = function () { pause(); };
+  setInterval(function () {   // progress for both engines
+    if (!list.length) return;
+    var d = engine.duration(), c = engine.time();
+    if (d) $("dur").textContent = fmt(d);
+    if (!seeking) { $("cur").textContent = fmt(c); if (d) { $("bar").value = c / d * 1000; paint($("bar")); } }
+  }, 250);
+  $("bar").addEventListener("input", function () { seeking = true; paint(this); $("cur").textContent = fmt(this.value / 1000 * (engine.duration() || 0)); });
+  $("bar").addEventListener("change", function () { var d = engine.duration(); if (d) engine.seek(this.value / 1000 * d); seeking = false; });
+  $("vol").addEventListener("input", function () { volume = this.value / 100; muted = false; engine.setVolume(level()); paint(this); setVolIcon(); save(); });
+  $("mute").onclick = function () { muted = !muted; engine.setVolume(level()); setVolIcon(); };
+  function setVolIcon() { $("volPath").setAttribute("d", muted || volume === 0 ? MUTED : VOL); }
   $("listBtn").onclick = function (ev) { ev.stopPropagation(); var p = $("playlist"); p.hidden = !p.hidden; $("listBtn").classList.toggle("on", !p.hidden); };
   document.addEventListener("click", function (ev) { var p = $("playlist"); if (!p.hidden && !p.contains(ev.target)) { p.hidden = true; $("listBtn").classList.remove("on"); } });
   document.addEventListener("keydown", function (ev) {
@@ -140,7 +227,7 @@
   });
 
   var ready = fetch("nasheeds/list.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (data) {
-    list = (data.tracks || []).filter(function (t) { return t && t.file && t.title; });
+    list = (data.tracks || []).filter(function (t) { return t && t.title && (t.file || t.youtube); });
     if (data.background) { var b = $("backdrop"); b.style.backgroundImage = "url('" + data.background + "')"; b.classList.add("has-image"); }
     if (data.avatar) { $("avatar").src = data.avatar; $("cover").src = data.avatar; }
     render();
@@ -149,15 +236,15 @@
   }).catch(function () { render(); $("title").textContent = "الأناشيد قريباً"; });
 
   // ------------------------------------------------------------------ start
-  // No entry screen. Browsers allow sound only after the visitor's first click/tap/key.
+  // No entry screen. Browsers allow sound only after the visitor's first click/tap/key,
+  // so the nasheed starts on that first interaction (unless it was on the player itself).
   setTimeout(function () { document.body.classList.add("entered"); }, 30);
   var started = false;
   function firstTouch(ev) {
     if (started) return; started = true;
     ["pointerdown", "keydown"].forEach(function (t) { removeEventListener(t, firstTouch, true); });
-    if (ev && ev.target && ev.target.closest && ev.target.closest(".controls, #playlist")) return;
-    ready.then(function () { if (list.length && audio.paused) audio.play().catch(function () {}); });
+    if (ev && ev.target && ev.target.closest && ev.target.closest(".controls, #playlist, .video")) return;
+    ready.then(function () { if (list.length && !wantPlay) play(); });
   }
   ["pointerdown", "keydown"].forEach(function (t) { addEventListener(t, firstTouch, true); });
-  ready.then(function () { if (list.length) audio.play().then(function () { started = true; }).catch(function () {}); });
 })();

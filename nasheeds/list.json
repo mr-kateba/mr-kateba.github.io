@@ -1,5 +1,7 @@
 {
   "avatar": "",
   "background": "",
-  "tracks": []
+  "tracks": [
+    { "title": "دين الإسلام سلام", "artist": "سمير البشيري", "youtube": "mogTlekbmBs", "fallback": ["L-lBNa5Vkq0", "0NRDmhQynmQ"] }
+  ]
 }
