@@ -114,16 +114,15 @@ html[dir=ltr] .item .go { direction: ltr; }
 
 .prose .note { display: block; margin-top: 6px; font-size: .7rem; color: var(--faint); opacity: .7; }
 
-/* ---------- cover: Dhat al-Imad on the left, card on the right */
-body.has-cover .backdrop.has-image { background-color: #0b0d12; background-size: auto 100%; background-repeat: no-repeat; background-position: left -60px center; }
-@media (max-aspect-ratio: 4/3) { body.has-cover .backdrop.has-image { background-size: cover; background-position: 25% 45%; } }
-body.has-cover .backdrop.has-image::after { background: linear-gradient(270deg, rgba(8,8,10,.85) 0%, rgba(8,8,10,.4) 40%, rgba(8,8,10,0) 65%), linear-gradient(0deg, rgba(8,8,10,.55), transparent 30%); }
+/* ---------- cover: Dhat al-Imad on the left, card on the right (bright, as in the first preview) */
+body.has-cover .backdrop.has-image { background-size: cover; background-position: 15% 70%; }
+body.has-cover .backdrop.has-image::after { background: linear-gradient(270deg, rgba(8,8,10,.85) 0%, rgba(8,8,10,.55) 40%, rgba(8,8,10,.15) 75%); }
 body.has-cover .embers { opacity: .45; }
 body.has-cover .stage { display: flex; justify-content: flex-start; padding-inline: clamp(16px, 5vw, 80px); }
 html[dir=ltr] body.has-cover .stage { justify-content: flex-end; }
 html[dir=ltr] body.has-cover .backdrop.has-image::after { transform: scaleX(-1); }
-.credit { position: fixed; bottom: 8px; left: 12px; z-index: 2; font-size: .65rem; color: rgba(255,255,255,.35); text-decoration: none; }
-.credit:hover { color: rgba(255,255,255,.7); }
+.credit { position: fixed; bottom: 8px; left: 12px; z-index: 2; font-size: .65rem; color: rgba(255,255,255,.4); text-decoration: none; }
+.credit:hover { color: rgba(255,255,255,.75); }
 body:not(.has-cover) .credit { display: none; }
 @media (max-width: 900px) {
   body.has-cover .backdrop.has-image { position: absolute; inset: 0 0 auto 0; height: 300px; background-position: 30% 40%;
