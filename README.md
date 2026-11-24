@@ -2,16 +2,10 @@
 
 The Blazma tools site: https://mr-kateba.github.io
 
-Profile page: an animated main picture, a list of the Blazma tools and a list of Nakhla Studio games.
+Profile page in Arabic and English: Blazma tools (with versions and downloads), Nakhla Studio games, about, FAQ.
 
-- Tools and games: `assets/site.js` (`TOOLS`, `GAMES`).
-- Main picture: `assets/cat.webp` (animated). Cover/background: set `COVER` at the top of `assets/site.js`.
+- Content: `assets/app.js` (`TOOLS`, `GAMES`, `TEXT`). Styles: `assets/site.css`.
+- `assets/stats.json` is rebuilt every day by `.github/workflows/stats.yml` (`tools/stats.py`).
+- Short download links: `/boost/`, `/get/`, `/cyber/`, `/sandbox/`, `/ai/`, `/animation/`, `/crosshair/`, `/nt/`.
+- Share card `assets/og.png` is rendered from `tools/og.html` at 1200x630; icons from `tools/images.py`.
 - The previous tools page is kept at `/classic` and in the `classic-2026-11-24` tag.
-
-It also serves the short launcher for [Blazma Boost](https://github.com/mr-kateba/Blazma-Boost):
-
-```powershell
-irm mr-kateba.github.io/win | iex
-```
-
-`win` downloads and runs the latest Blazma Boost release, so it never needs updating.

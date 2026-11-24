@@ -82,3 +82,32 @@ body.entered .card { opacity: 1; transform: none; }
   .name { font-size: 1.9rem; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ---------- v3: language button, header stats, versions, about, FAQ */
+.card { position: relative; }
+.lang { position: absolute; top: 14px; inset-inline-end: 14px; border: 1px solid var(--line-2); background: rgba(255,255,255,.04); color: var(--muted);
+  border-radius: 999px; padding: 4px 12px; font-size: .8rem; cursor: pointer; transition: color .2s, border-color .2s; }
+.lang:hover { color: var(--text); border-color: var(--accent); }
+.stats { display: flex; justify-content: center; gap: 8px; margin: -4px 0 16px; flex-wrap: wrap; }
+.stat { min-width: 92px; padding: 6px 12px; border-radius: 12px; background: rgba(255,255,255,.03); border: 1px solid var(--line); }
+.stat b { display: block; font-size: 1.05rem; color: var(--accent-2); font-variant-numeric: tabular-nums; }
+.stat span { font-size: .75rem; color: var(--muted); }
+.tab { padding: 9px 4px; font-size: .92rem; }
+.ver { display: inline-block; margin-inline-start: 8px; padding: 0 7px; border-radius: 6px; font-size: .7rem; font-weight: 400; vertical-align: 2px;
+  color: var(--accent-2); background: rgba(255,179,0,.1); direction: ltr; font-variant-numeric: tabular-nums; }
+.item .meta { font-size: .75rem; color: var(--faint); margin-top: 1px; }
+.prose { text-align: start; color: var(--muted); font-size: .95rem; padding: 4px 6px; }
+.prose p { margin: 0 0 10px; }
+.prose b { color: var(--text); }
+.faq { display: flex; flex-direction: column; gap: 8px; text-align: start; }
+.faq details { border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.03); padding: 0 14px; transition: border-color .2s; }
+.faq details[open] { border-color: rgba(255,109,0,.4); }
+.faq summary { cursor: pointer; padding: 11px 0; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--accent); font-weight: 400; font-size: 1.2rem; line-height: 1; transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq p { margin: 0 0 12px; color: var(--muted); font-size: .9rem; }
+.faq code { font-family: Consolas, monospace; background: rgba(0,0,0,.35); padding: 1px 6px; border-radius: 5px; color: var(--text); }
+.foot { margin: 16px 0 0; }
+.foot a { color: var(--muted); }
+html[dir=ltr] .item .go { direction: ltr; }

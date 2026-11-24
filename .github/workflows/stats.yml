@@ -1,0 +1,20 @@
+name: Update tool stats
+on:
+  schedule: [{ cron: "17 3 * * *" }]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python tools/stats.py
+        env: { GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+      - name: Commit if changed
+        run: |
+          git diff --quiet && exit 0
+          git config user.name "kateba"
+          git config user.email "132195893+mr-kateba@users.noreply.github.com"
+          git commit -am "Update tool stats"
+          git push

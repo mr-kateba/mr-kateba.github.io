@@ -1,0 +1,76 @@
+{
+ "tools": {
+  "ai": {
+   "date": "2026-10-02",
+   "downloads": 3,
+   "file": "Blazma-AI-Setup-0.1.0.exe",
+   "hasRelease": true,
+   "repo": "blazma-ai",
+   "url": "https://github.com/mr-kateba/blazma-ai/releases/download/v0.1.0/Blazma-AI-Setup-0.1.0.exe",
+   "version": "v0.1.0"
+  },
+  "animation": {
+   "date": "2026-11-19",
+   "downloads": 72,
+   "file": "BlazmaAnimation-1.0.1-setup.exe",
+   "hasRelease": true,
+   "repo": "blazma-Animation",
+   "url": "https://github.com/mr-kateba/blazma-Animation/releases/download/v1.0.1/BlazmaAnimation-1.0.1-setup.exe",
+   "version": "v1.0.1"
+  },
+  "boost": {
+   "date": "2026-11-20",
+   "downloads": 79,
+   "file": "BlazmaBoost.zip",
+   "hasRelease": true,
+   "repo": "Blazma-Boost",
+   "url": "https://github.com/mr-kateba/Blazma-Boost/releases/download/26.11.20/BlazmaBoost.zip",
+   "version": "26.11.20"
+  },
+  "crosshair": {
+   "date": "2026-08-04",
+   "downloads": 3,
+   "file": "Blazma-v1.0.0-win64.zip",
+   "hasRelease": true,
+   "repo": "blazma-Crosshair",
+   "url": "https://github.com/mr-kateba/blazma-Crosshair/releases/download/v1.0.0/Blazma-v1.0.0-win64.zip",
+   "version": "v1.0.0"
+  },
+  "cyber": {
+   "date": "2026-10-08",
+   "downloads": 12,
+   "file": "Blazma-Cyber-1.1.8-x64-setup.exe",
+   "hasRelease": true,
+   "repo": "Blazma-Cyber",
+   "url": "https://github.com/mr-kateba/Blazma-Cyber/releases/download/v1.1.8/Blazma-Cyber-1.1.8-x64-setup.exe",
+   "version": "v1.1.8"
+  },
+  "get": {
+   "date": "2026-11-20",
+   "downloads": 79,
+   "file": "BlazmaGet-Setup-1.3.1.exe",
+   "hasRelease": true,
+   "repo": "Blazma-Get",
+   "url": "https://github.com/mr-kateba/Blazma-Get/releases/download/v1.3.1/BlazmaGet-Setup-1.3.1.exe",
+   "version": "v1.3.1"
+  },
+  "nt": {
+   "date": "2026-10-02",
+   "downloads": 0,
+   "file": "blazma.nt-Setup-1.0.1.exe",
+   "hasRelease": true,
+   "repo": "blazma-nt",
+   "url": "https://github.com/mr-kateba/blazma-nt/releases/download/v1.0.1/blazma.nt-Setup-1.0.1.exe",
+   "version": "v1.0.1"
+  },
+  "sandbox": {
+   "date": "2026-10-14",
+   "downloads": 5,
+   "file": "BlazmaSandbox-0.1.3-setup.exe",
+   "hasRelease": true,
+   "repo": "Blazma-Sandbox",
+   "url": "https://github.com/mr-kateba/Blazma-Sandbox/releases/download/v0.1.3/BlazmaSandbox-0.1.3-setup.exe",
+   "version": "v0.1.3"
+  }
+ }
+}

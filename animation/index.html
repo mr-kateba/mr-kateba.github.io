@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blazma Animation — تحميل</title><meta name="robots" content="noindex">
+<link rel="icon" href="../assets/icon.svg?v=1" type="image/svg+xml">
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#121216;color:#f2f2f5;font-family:"Segoe UI",Tahoma,sans-serif;text-align:center}img{width:72px;height:72px}a{color:#ff6d00}p{color:#a0a0ab}</style>
+</head><body><div><img src="../logos/animation.svg" alt=""><h1>Blazma Animation</h1><p>جاري التحميل… <a id="go" href="https://github.com/mr-kateba/blazma-Animation/releases/latest">اضغط هنا إذا ما بدأ</a></p></div>
+<script>
+fetch("../assets/stats.json",{cache:"no-cache"}).then(function(r){return r.json()}).then(function(d){var t=d.tools["animation"];if(t&&t.url){document.getElementById("go").href=t.url;location.replace(t.url)}else location.replace("https://github.com/mr-kateba/blazma-Animation/releases/latest")}).catch(function(){location.replace("https://github.com/mr-kateba/blazma-Animation/releases/latest")});
+</script></body></html>
