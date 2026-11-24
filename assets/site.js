@@ -147,7 +147,7 @@
   $("listBtn").onclick = function (ev) { ev.stopPropagation(); var p = $("playlist"); p.hidden = !p.hidden; $("listBtn").classList.toggle("on", !p.hidden); };
   document.addEventListener("click", function (ev) { var p = $("playlist"); if (!p.hidden && !p.contains(ev.target)) { p.hidden = true; $("listBtn").classList.remove("on"); } });
   document.addEventListener("keydown", function (ev) {
-    if (ev.target.tagName === "INPUT" || !document.body.classList.contains("entered")) return;
+    if (ev.target.tagName === "INPUT") return;
     if (ev.code === "Space") { ev.preventDefault(); $("play").click(); }
   });
 
@@ -160,12 +160,17 @@
     else { $("title").textContent = "الأناشيد قريباً"; }
   }).catch(function () { render(); $("title").textContent = "الأناشيد قريباً"; });
 
-  // ------------------------------------------------------------------ gate
-  function enter() {
-    if (document.body.classList.contains("entered")) return;
-    document.body.classList.add("entered"); $("gate").classList.add("gone");
-    ready.then(function () { if (list.length) audio.play().catch(function () {}); });
+  // ------------------------------------------------------------------ start
+  // No entry screen: the page shows at once. Browsers only allow sound after the visitor's first
+  // click/tap/key, so the nasheed starts on that first interaction (unless they pressed pause).
+  setTimeout(function () { document.body.classList.add("entered"); }, 30);
+  var started = false;
+  function firstTouch(ev) {
+    if (started) return; started = true;
+    ["pointerdown", "keydown"].forEach(function (t) { removeEventListener(t, firstTouch, true); });
+    if (ev && ev.target && ev.target.closest && ev.target.closest(".controls, #playlist")) return; // the player's own buttons handle it
+    ready.then(function () { if (list.length && audio.paused) audio.play().catch(function () {}); });
   }
-  $("gate").addEventListener("click", enter);
-  $("gate").addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") enter(); });
+  ["pointerdown", "keydown"].forEach(function (t) { addEventListener(t, firstTouch, true); });
+  ready.then(function () { if (list.length) audio.play().then(function () { started = true; }).catch(function () {}); });
 })();
