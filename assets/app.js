@@ -26,7 +26,7 @@
   // Nakhla Studio games: { name, ar, en, img, link }
   var GAMES = [];
   // Cover picture behind the page (e.g. "assets/cover.jpg"); empty = the ember background.
-  var COVER = "";
+  var COVER = "assets/cover-imad.jpg";   // Dhat al-Imad towers, Tripoli — photo: Gary Denham (CC BY-SA 2.0), credited in the footer
 
   var TEXT = {
     ar: {
@@ -174,6 +174,6 @@
     if (!still) requestAnimationFrame(tick);
   })();
 
-  if (COVER) { var b = $("backdrop"); b.style.backgroundImage = "url('" + COVER + "')"; b.classList.add("has-image"); }
+  if (COVER) { var b = $("backdrop"); b.style.backgroundImage = "url('" + COVER + "')"; b.classList.add("has-image"); document.body.classList.add("has-cover"); }
   setTimeout(function () { document.body.classList.add("entered"); }, 30);
 })();
