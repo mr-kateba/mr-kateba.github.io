@@ -131,3 +131,8 @@ body:not(.has-cover) .credit { display: none; }
   body.has-cover .stage { justify-content: center; padding-top: 210px; }
   .credit { position: static; display: block; text-align: center; padding: 0 0 16px; }
 }
+
+/* plain black background for now */
+body:not(.has-cover) .backdrop { background: #000; }
+body:not(.has-cover) .embers { display: none; }
+body { background: #000; }
