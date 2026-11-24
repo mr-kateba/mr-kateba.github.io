@@ -8,7 +8,7 @@
 <meta name="author" content="kateba (mr-kateba)">
 <meta name="theme-color" content="#121216">
 <link rel="icon" href="logos/boost.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/site.css?v=202611250005">
+<link rel="stylesheet" href="assets/site.css?v=202611250110">
 </head>
 <body>
 
@@ -17,7 +17,7 @@
 
 <main class="stage">
   <section class="card" id="card">
-    <div class="avatar-wrap"><img id="avatar" class="avatar" src="assets/avatar.svg" alt=""></div>
+    <div class="avatar-wrap"><img id="avatar" class="avatar" src="assets/avatar.webp" alt=""></div>
     <h1 class="name">kateba</h1>
     <p class="bio">أدوات ويندوز عربية مجانية ومفتوحة المصدر، وألعاب من استوديو نخلة.</p>
 
@@ -30,33 +30,7 @@
   </section>
 </main>
 
-<footer class="player disabled" id="player">
-  <div class="track">
-    <div class="disc"><img id="cover" src="assets/avatar.svg" alt=""></div>
-    <div class="meta"><div class="title" id="title">—</div><div class="artist" id="artist"></div></div>
-  </div>
-  <div class="controls">
-    <button class="ctl" id="prev" aria-label="السابق"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zM9.5 12 18 18V6z"/></svg></button>
-    <button class="ctl play" id="play" aria-label="تشغيل"><svg viewBox="0 0 24 24"><path id="playPath" d="M8 5v14l11-7z"/></svg></button>
-    <button class="ctl" id="next" aria-label="التالي"><svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg></button>
-  </div>
-  <div class="seek">
-    <span class="time" id="cur">0:00</span>
-    <input type="range" id="bar" min="0" max="1000" value="0" aria-label="التقدّم">
-    <span class="time" id="dur">0:00</span>
-  </div>
-  <div class="extra">
-    <button class="ctl small" id="mute" aria-label="كتم"><svg viewBox="0 0 24 24"><path id="volPath" d="M4 9v6h4l5 5V4L8 9zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
-    <input type="range" id="vol" min="0" max="100" value="70" aria-label="الصوت">
-    <button class="ctl small" id="listBtn" aria-label="قائمة الأناشيد"><svg viewBox="0 0 24 24"><path d="M3 6h12v2H3zm0 5h12v2H3zm0 5h8v2H3zm14-6v7.2A3 3 0 1 0 19 20V12h3v-2z"/></svg></button>
-  </div>
-  <div class="playlist" id="playlist" hidden>
-    <div class="playlist-head">الأناشيد</div>
-    <ol id="tracks"></ol>
-  </div>
-</footer>
 
-<audio id="audio" preload="metadata"></audio>
-<script src="assets/site.js?v=202611250005"></script>
+<script src="assets/site.js?v=202611250110"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@ a { color: inherit; text-decoration: none; }
 .embers { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
 
 /* ---------- card */
-.stage { min-height: 100%; display: grid; place-items: center; padding: 48px 16px 150px; }
+.stage { min-height: 100%; display: grid; place-items: center; padding: 48px 16px; }
 .card { width: min(560px, 100%); background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 28px 22px 18px;
   backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2);
   box-shadow: 0 30px 80px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .05);
@@ -60,7 +60,7 @@ body.entered .card { opacity: 1; transform: none; }
 .item img { width: 42px; height: 42px; flex: none; border-radius: 10px; }
 .item .info { flex: 1; min-width: 0; }
 .item .t { font-weight: 600; }
-.item .d { color: var(--muted); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item .d { color: var(--muted); font-size: .85rem; line-height: 1.5; }
 .item .go { flex: none; display: flex; gap: 6px; }
 .pill { border: 1px solid var(--line-2); background: rgba(255, 255, 255, .04); border-radius: 999px; padding: 5px 12px; font-size: .85rem; cursor: pointer; white-space: nowrap; transition: border-color .2s, background .2s; }
 .pill:hover { border-color: var(--accent); }
@@ -72,58 +72,10 @@ body.entered .card { opacity: 1; transform: none; }
 .foot { margin-top: 14px; color: var(--faint); font-size: .8rem; }
 .foot a:hover { color: var(--accent); }
 
-/* ---------- player */
-.player { position: fixed; inset: auto 12px 12px 12px; z-index: 10; max-width: 980px; margin: 0 auto;
-  display: grid; grid-template-columns: minmax(0, 1.1fr) auto minmax(0, 1.6fr) auto; align-items: center; gap: 16px;
-  padding: 10px 14px; border-radius: 18px; background: rgba(18, 18, 22, .78); border: 1px solid var(--line);
-  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 18px 50px rgba(0, 0, 0, .5);
-  transform: translateY(140%); transition: transform .7s cubic-bezier(.2, .8, .2, 1) .35s; }
-body.entered .player { transform: none; }
-.track { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.disc { width: 46px; height: 46px; flex: none; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255, 109, 0, .5); }
-.disc img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.player.playing .disc { animation: spin 8s linear infinite; box-shadow: var(--glow); }
-.meta { min-width: 0; }
-.title { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.artist { color: var(--muted); font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.controls { display: flex; align-items: center; gap: 6px; direction: ltr; }
-.ctl { width: 38px; height: 38px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; cursor: pointer; color: var(--text); transition: background .2s, transform .1s; }
-.ctl svg { width: 22px; height: 22px; fill: currentColor; }
-.ctl:hover { background: rgba(255, 255, 255, .07); }
-.ctl:active { transform: scale(.92); }
-.ctl.play { width: 46px; height: 46px; background: var(--accent); box-shadow: var(--glow); }
-.ctl.play:hover { background: #ff8124; }
-.ctl.small { width: 32px; height: 32px; }
-.ctl.small svg { width: 19px; height: 19px; }
-.ctl.on { color: var(--accent); }
-.seek { display: flex; align-items: center; gap: 10px; direction: ltr; }
-.time { font-size: .78rem; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 36px; text-align: center; }
-.extra { display: flex; align-items: center; gap: 6px; direction: ltr; }
-#vol { width: 84px; }
-input[type=range] { -webkit-appearance: none; appearance: none; flex: 1; height: 4px; border-radius: 4px; outline: none; cursor: pointer;
-  background: linear-gradient(to right, var(--accent) var(--p, 0%), rgba(255, 255, 255, .12) var(--p, 0%)); }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px rgba(255, 109, 0, .8); }
-input[type=range]::-moz-range-thumb { width: 13px; height: 13px; border: 0; border-radius: 50%; background: #fff; }
-.player.disabled .controls, .player.disabled .seek { opacity: .4; pointer-events: none; }
-
-.playlist { position: absolute; bottom: calc(100% + 10px); left: 0; width: min(340px, calc(100vw - 24px)); padding: 10px; border-radius: 16px;
-  background: rgba(18, 18, 22, .95); border: 1px solid var(--line); box-shadow: 0 18px 50px rgba(0, 0, 0, .55); direction: rtl; }
-.playlist-head { font-weight: 600; padding: 4px 8px 8px; color: var(--muted); font-size: .9rem; }
-.playlist ol { list-style: none; margin: 0; padding: 0; max-height: 300px; overflow: auto; }
-.playlist li { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; cursor: pointer; }
-.playlist li:hover { background: rgba(255, 255, 255, .05); }
-.playlist li.current { background: rgba(255, 109, 0, .14); color: var(--accent); }
-.playlist li .n { width: 18px; color: var(--faint); font-variant-numeric: tabular-nums; }
-.playlist li .a { color: var(--muted); font-size: .8rem; margin-inline-start: auto; }
-.playlist .none { padding: 14px 10px; color: var(--muted); font-size: .9rem; }
-
 .toast { position: fixed; top: 18px; left: 50%; transform: translate(-50%, -20px); opacity: 0; z-index: 60; background: #1c1c22; border: 1px solid var(--line-2); padding: 8px 16px; border-radius: 999px; transition: .3s; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 760px) {
-  .player { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "track controls" "seek seek"; gap: 6px 10px; }
-  .track { grid-area: track; } .controls { grid-area: controls; } .seek { grid-area: seek; } .extra { display: none; }
-  .stage { padding-bottom: 170px; }
   .item { flex-wrap: wrap; }
   .item .d { white-space: normal; }
   .item .go { width: 100%; padding-inline-start: 54px; }
