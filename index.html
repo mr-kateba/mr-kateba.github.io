@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>kateba — أدوات بلازما واستوديو نخلة</title>
 <meta name="description" content="أدوات ويندوز عربية مجانية ومفتوحة المصدر من تطوير kateba: Blazma Boost وGet وCyber وSandbox وAI وAnimation وCrosshair وnt، وألعاب استوديو نخلة.">
 <meta name="author" content="kateba (mr-kateba)">
@@ -25,37 +25,75 @@
 <meta name="twitter:title" content="kateba — أدوات بلازما واستوديو نخلة">
 <meta name="twitter:description" content="أدوات ويندوز عربية مجانية ومفتوحة المصدر، بدون حسابات وبدون تتبع.">
 <meta name="twitter:image" content="https://mr-kateba.github.io/assets/og.png?v=1">
-<link rel="stylesheet" href="assets/site.css?v=202611251100">
+<link rel="stylesheet" href="assets/site.css?v=202611251230">
 </head>
 <body>
 
-<div class="backdrop" id="backdrop" aria-hidden="true"></div>
-<canvas id="embers" class="embers" aria-hidden="true"></canvas>
+<header class="nav" id="nav">
+  <a class="brand" href="#top"><img src="assets/cat.webp" alt=""><span>kateba</span></a>
+  <nav class="links">
+    <a href="#tools" data-i18n="nav.tools"></a>
+    <a href="#games" data-i18n="nav.games"></a>
+    <a href="#about" data-i18n="nav.about"></a>
+  </nav>
+  <button class="lang" id="lang" type="button">English</button>
+</header>
 
-<main class="stage">
-  <section class="card" id="card">
-    <button class="lang" id="lang" type="button">English</button>
-    <header class="top">
-      <div class="avatar-wrap"><img id="avatar" class="avatar" src="assets/cat.webp" alt="kateba"></div>
-      <div class="who"><h1 class="name">kateba</h1><p class="bio" data-i18n="bio"></p></div>
-    </header>
-    <div class="stats" id="stats"></div>
+<main>
+  <!-- 1. the Nakhla wallpaper, untouched, as the opening screen -->
+  <section class="hero" id="top">
+    <div class="hero-img" role="img" aria-label="Nakhla — kateba"></div>
+    <div class="hero-foot reveal">
+      <p class="tagline" data-i18n="hero"></p>
+      <div class="hero-cta">
+        <a class="btn solid" href="#tools" data-i18n="cta.tools"></a>
+        <a class="btn ghost" href="https://github.com/mr-kateba" target="_blank" rel="noopener"><bdi>GitHub</bdi></a>
+      </div>
+    </div>
+    <a class="scroll" href="#tools" aria-label="tools"><span></span></a>
+  </section>
 
-    <nav class="tabs" role="tablist"><span class="ink" aria-hidden="true"></span>
-      <button class="tab active" role="tab" aria-selected="true" data-tab="tools" data-i18n="tab.tools"></button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="games" data-i18n="tab.games"></button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="about" data-i18n="tab.about"></button>
-      <button class="tab" role="tab" aria-selected="false" data-tab="faq" data-i18n="tab.faq"></button>
-    </nav>
-    <div class="panel active" id="tab-tools" role="tabpanel"><ul class="grid" id="tools"></ul></div>
-    <div class="panel" id="tab-games" role="tabpanel"><ul class="grid" id="games"></ul></div>
-    <div class="panel" id="tab-about" role="tabpanel"><div class="prose" id="about"></div></div>
-    <div class="panel" id="tab-faq" role="tabpanel"><div class="faq" id="faq"></div></div>
+  <!-- 2. tools -->
+  <section class="sec" id="tools">
+    <div class="sec-head reveal">
+      <p class="kicker"><span class="dot"></span><span data-i18n="tools.kicker"></span></p>
+      <h2 data-i18n="tools.title"></h2>
+      <div class="facts" id="facts"></div>
+    </div>
+    <article class="feature reveal" id="feature"></article>
+    <ol class="index" id="index"></ol>
+  </section>
 
-    <p class="foot"><span data-i18n="foot"></span> · <a href="https://github.com/mr-kateba" target="_blank" rel="noopener"><bdi>GitHub</bdi></a></p>
+  <!-- 3. Nakhla Studio -->
+  <section class="sec studio" id="games">
+    <div class="studio-inner reveal">
+      <img class="studio-mark" src="assets/nakhla.svg" alt="">
+      <p class="kicker"><span class="dot"></span><span data-i18n="games.kicker"></span></p>
+      <h2 data-i18n="games.title"></h2>
+      <p class="studio-text" data-i18n="games.text"></p>
+      <ul class="games" id="games-list"></ul>
+    </div>
+  </section>
+
+  <!-- 4. about + questions -->
+  <section class="sec split" id="about">
+    <div class="about reveal">
+      <p class="kicker"><span class="dot"></span><span data-i18n="about.kicker"></span></p>
+      <h2 data-i18n="about.title"></h2>
+      <div class="prose" id="about-text"></div>
+    </div>
+    <div class="qa reveal">
+      <p class="kicker"><span class="dot"></span><span data-i18n="faq.kicker"></span></p>
+      <div class="faq" id="faq"></div>
+    </div>
   </section>
 </main>
 
-<script src="assets/app.js?v=202611251100"></script>
+<footer class="foot">
+  <div class="sig" dir="ltr"><b>Blazma</b><span>TOOLS FAMILY</span></div>
+  <p><span data-i18n="foot"></span> · <a href="https://github.com/mr-kateba" target="_blank" rel="noopener"><bdi>GitHub</bdi></a></p>
+</footer>
+
+<script src="assets/app.js?v=202611251230"></script>
 </body>
 </html>

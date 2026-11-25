@@ -3,21 +3,22 @@
 // which a daily GitHub Action (.github/workflows/stats.yml) rebuilds from the releases.
 (function () {
   "use strict";
+  document.documentElement.classList.add("js");
 
   // ------------------------------------------------------------------ content
   var TOOLS = [
-    { id: "boost", name: "Blazma Boost", repo: "Blazma-Boost", copy: "irm mr-kateba.github.io/win | iex",
+    { id: "boost", name: "Blazma Boost", repo: "Blazma-Boost", copy: "irm mr-kateba.github.io/win | iex", featured: true,
       ar: "تحسين ويندوز والألعاب، وتثبيت أكثر من 200 برنامج بضغطة", en: "Windows and gaming tweaks, and 200+ apps installed in one click" },
-    { id: "ai", name: "Blazma AI", repo: "blazma-ai",
-      ar: "ذكاء اصطناعي يشتغل على جهازك بدون اشتراك", en: "Local AI that runs on your own PC, no subscription" },
     { id: "get", name: "Blazma Get", repo: "Blazma-Get",
       ar: "مدير تحميل عربي مجاني، بديل لـ IDM", en: "A free download manager, an IDM alternative" },
+    { id: "animation", name: "Blazma Animation", repo: "blazma-Animation",
+      ar: "تحريك الشخصيات ثلاثية الأبعاد، وتصدير لـ Unity وGodot", en: "3D character animation, exported to Unity and Godot" },
     { id: "cyber", name: "Blazma Cyber", repo: "Blazma-Cyber",
       ar: "أمن دفاعي: تحليل الملفات وفحصها وأدوات الشبكة", en: "Defensive security: file analysis, scanning and network tools" },
     { id: "sandbox", name: "Blazma Sandbox", repo: "Blazma-Sandbox",
       ar: "افحص الملفات والروابط المشبوهة في بيئة معزولة", en: "Check suspicious files and links in an isolated sandbox" },
-    { id: "animation", name: "Blazma Animation", repo: "blazma-Animation",
-      ar: "تحريك الشخصيات ثلاثية الأبعاد، وتصدير لـ Unity وGodot", en: "3D character animation, exported to Unity and Godot" },
+    { id: "ai", name: "Blazma AI", repo: "blazma-ai",
+      ar: "ذكاء اصطناعي يشتغل على جهازك بدون اشتراك", en: "Local AI that runs on your own PC, no subscription" },
     { id: "crosshair", name: "Blazma Crosshair", repo: "blazma-Crosshair",
       ar: "علامة تصويب فوق أي لعبة، آمنة مع الألعاب", en: "A crosshair overlay for any game, anti-cheat safe" },
     { id: "nt", name: "blazma.nt", repo: "blazma-nt",
@@ -25,15 +26,20 @@
   ];
   // Nakhla Studio games: { name, ar, en, img, link }
   var GAMES = [];
-  // Background: the Nakhla wallpaper (assets/nakhla-wall-*.jpg), set in assets/site.css.
 
   var TEXT = {
     ar: {
-      bio: "أدوات ويندوز عربية مجانية ومفتوحة المصدر، وألعاب من استوديو نخلة.",
-      "tab.tools": "الأدوات", "tab.games": "الألعاب", "tab.about": "عني", "tab.faq": "أسئلة",
-      download: "تحميل", page: "الصفحة", copy: "نسخ الأمر", copied: "تم نسخ الأمر — الصقه في PowerShell كمسؤول",
-      version: "الإصدار", downloads: "تحميل", tools: "أدوات", total: "تحميل", open: "مفتوحة المصدر",
-      soon: "قريباً", soonText: "ألعاب استوديو نخلة في الطريق.", play: "العب",
+      "nav.tools": "الأدوات", "nav.games": "الألعاب", "nav.about": "عني",
+      hero: "أدوات ويندوز عربية مجانية ومفتوحة المصدر، وألعاب من استوديو نخلة.",
+      "cta.tools": "تصفّح الأدوات",
+      "tools.kicker": "عائلة أدوات بلازما", "tools.title": "أدوات ويندوز، بالعربي ومجاناً.",
+      tools: "أدوات", total: "تحميل", open: "مفتوحة المصدر",
+      featured: "الأشهر", download: "تحميل", page: "صفحة GitHub", copy: "نسخ", copied: "تم النسخ — الصقه في PowerShell كمسؤول",
+      runIt: "أو شغّله مباشرة من PowerShell", downloads: "تحميل", version: "الإصدار",
+      "games.kicker": "استوديو نخلة", "games.title": "ألعاب بروح عربية.",
+      "games.text": "ألعاب مستقلة من ليبيا، نصنعها على مهل ونجرّبها كثير قبل ما تطلع.",
+      soon: "أول لعبة في الطريق", play: "العب",
+      "about.kicker": "عني", "about.title": "مطوّر واحد، وفكرة بسيطة.", "faq.kicker": "أسئلة شائعة",
       foot: "تطوير \u2068kateba\u2069",
       about: [
         "أنا <b>kateba</b>، مطوّر من ليبيا. أصنع أدوات ويندوز عربية مجانية تحت اسم <b>بلازما</b>، وألعاب تحت اسم <b>استوديو نخلة</b>.",
@@ -51,11 +57,17 @@
       ]
     },
     en: {
-      bio: "Free, open-source Windows tools in Arabic, and games from Nakhla Studio.",
-      "tab.tools": "Tools", "tab.games": "Games", "tab.about": "About", "tab.faq": "FAQ",
-      download: "Download", page: "Page", copy: "Copy command", copied: "Command copied — paste it into PowerShell as admin",
-      version: "Version", downloads: "downloads", tools: "tools", total: "downloads", open: "open source",
-      soon: "Coming soon", soonText: "Nakhla Studio games are on the way.", play: "Play",
+      "nav.tools": "Tools", "nav.games": "Games", "nav.about": "About",
+      hero: "Free, open-source Windows tools in Arabic, and games from Nakhla Studio.",
+      "cta.tools": "Browse the tools",
+      "tools.kicker": "The Blazma tools family", "tools.title": "Windows tools, in Arabic and free.",
+      tools: "tools", total: "downloads", open: "open source",
+      featured: "Most popular", download: "Download", page: "GitHub page", copy: "Copy", copied: "Copied — paste it into PowerShell as admin",
+      runIt: "or run it straight from PowerShell", downloads: "downloads", version: "Version",
+      "games.kicker": "Nakhla Studio", "games.title": "Games with an Arabic soul.",
+      "games.text": "Independent games from Libya, made slowly and play-tested a lot before release.",
+      soon: "The first game is on its way", play: "Play",
+      "about.kicker": "About", "about.title": "One developer, one simple idea.", "faq.kicker": "Questions",
       foot: "Made by kateba",
       about: [
         "I'm <b>kateba</b>, a developer from Libya. I make free Arabic Windows tools under the name <b>Blazma</b>, and games under <b>Nakhla Studio</b>.",
@@ -74,25 +86,31 @@
     }
   };
 
-  // ------------------------------------------------------------------ helpers
-  var $ = function (id) { return document.getElementById(id); };
-  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  function toast(msg) {
-    var t = document.querySelector(".toast") || document.body.appendChild(el("div", "toast"));
-    t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 1800);
-  }
   var ICON = {
     down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
     copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',
+    ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
     gh: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>'
   };
-  function link(cls, text, href) { var a = el("a", cls, text); a.href = href; a.target = "_blank"; a.rel = "noopener"; return a; }
+
+  // ------------------------------------------------------------------ helpers
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function toast(msg) {
+    var t = document.querySelector(".toast") || document.body.appendChild(el("div", "toast"));
+    t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 2000);
+  }
+  function a(cls, html, href, title) { var e = el("a", cls, html); e.href = href; e.target = "_blank"; e.rel = "noopener"; if (title) { e.title = title; e.setAttribute("aria-label", title); } return e; }
 
   var lang = "ar";
-  try { lang = localStorage.getItem("kateba.lang") || (navigator.language || "ar").slice(0, 2) === "en" && "en" || "ar"; } catch (_) {}
+  try { lang = localStorage.getItem("kateba.lang") || ((navigator.language || "ar").slice(0, 2) === "en" ? "en" : "ar"); } catch (_) {}
   var stats = null;
   function T(k) { return TEXT[lang][k]; }
   function num(n) { return new Intl.NumberFormat(lang === "ar" ? "ar-u-nu-latn" : "en").format(n); }
+  function st(id) { return stats && stats.tools && stats.tools[id] || {}; }
+  function dl(t) { return "https://mr-kateba.github.io/" + t.id + "/"; }
+  function gh(t) { return "https://github.com/mr-kateba/" + t.repo; }
 
   // ------------------------------------------------------------------ render
   function render() {
@@ -102,88 +120,94 @@
     $("lang").textContent = ar ? "English" : "العربية";
     document.querySelectorAll("[data-i18n]").forEach(function (n) { n.textContent = T(n.dataset.i18n); });
 
-    // header stats
-    var s = $("stats"); s.textContent = "";
-    var total = 0;
-    if (stats) Object.keys(stats.tools || {}).forEach(function (k) { total += stats.tools[k].downloads || 0; });
+    // facts beside the section title
+    var total = 0; TOOLS.forEach(function (t) { total += st(t.id).downloads || 0; });
+    var f = $("facts"); f.textContent = "";
     [[num(TOOLS.length), T("tools")], total >= 100 ? ["+" + num(Math.floor(total / 50) * 50), T("total")] : null, ["100%", T("open")]]
-      .forEach(function (x) { if (!x) return; var c = el("div", "stat"); var b = el("b", null, x[0]); b.dir = "ltr"; c.appendChild(b); c.appendChild(el("span", null, x[1])); s.appendChild(c); });
+      .forEach(function (x) { if (x) f.appendChild(el("div", "fact", "<b dir=\"ltr\">" + x[0] + "</b><span>" + x[1] + "</span>")); });
 
-    // tools
-    var ul = $("tools"); ul.textContent = "";
-    TOOLS.forEach(function (t) {
-      var st = stats && stats.tools && stats.tools[t.id] || {};
-      var li = el("li", "tile");
-      var head = el("div", "tile-head");
-      var img = el("img"); img.src = "logos/" + t.id + ".svg"; img.alt = ""; img.loading = "lazy";
-      var nm = el("div"); nm.appendChild(el("div", "t", t.name));
-      if (st.version) { var v = el("span", "ver", st.version.replace(/^v/, "")); v.title = T("version"); nm.appendChild(v); }
-      head.appendChild(img); head.appendChild(nm); li.appendChild(head);
-      li.appendChild(el("p", "d", t[lang]));
-      if (st.downloads >= 50) li.appendChild(el("div", "meta", num(st.downloads) + " " + T("downloads")));
-      var go = el("div", "go");
-      if (st.hasRelease !== false) { var d = link("btn primary", null, "https://mr-kateba.github.io/" + t.id + "/"); d.innerHTML = ICON.down + "<span>" + T("download") + "</span>"; go.appendChild(d); }
-      if (t.copy) {
-        var c = el("button", "btn icon"); c.type = "button"; c.title = T("copy") + ": " + t.copy; c.setAttribute("aria-label", T("copy")); c.innerHTML = ICON.copy;
-        c.onclick = function () { navigator.clipboard.writeText(t.copy).then(function () { toast(T("copied")); }); };
-        go.appendChild(c);
-      }
-      var gh = link("btn icon", null, "https://github.com/mr-kateba/" + t.repo); gh.title = T("page"); gh.setAttribute("aria-label", T("page")); gh.innerHTML = ICON.gh; go.appendChild(gh);
+    // featured tool
+    var ft = TOOLS.filter(function (t) { return t.featured; })[0], s = st(ft.id);
+    var fe = $("feature"); fe.textContent = "";
+    var left = el("div");
+    left.appendChild(el("span", "f-badge", T("featured")));
+    left.appendChild(el("h3", "f-name", "<img src=\"logos/" + ft.id + ".svg\" alt=\"\">" + esc(ft.name)));
+    left.appendChild(el("p", "f-desc", esc(ft[lang])));
+    var acts = el("div", "f-actions");
+    acts.appendChild(a("btn solid", ICON.down + "<span>" + T("download") + "</span>", dl(ft)));
+    acts.appendChild(a("btn ghost sq", ICON.gh, gh(ft), T("page")));
+    left.appendChild(acts);
+    var meta = [];
+    if (s.version) meta.push(T("version") + " <bdi dir=\"ltr\">" + esc(s.version.replace(/^v/, "")) + "</bdi>");
+    if (s.downloads >= 50) meta.push(num(s.downloads) + " " + T("downloads"));
+    if (meta.length) left.appendChild(el("div", "f-meta", meta.join(" · ")));
+    var term = el("div", "term",
+      "<div class=\"term-bar\"><i></i><i></i><i></i><span>PowerShell · Admin</span></div>" +
+      "<div class=\"term-body\"><code><em>PS&gt;</em> " + esc(ft.copy) + " <span class=\"cur\"></span></code></div>");
+    var cp = el("button", "copy", ICON.copy + "<span>" + T("copy") + "</span>"); cp.type = "button";
+    cp.onclick = function () {
+      navigator.clipboard.writeText(ft.copy).then(function () {
+        toast(T("copied")); cp.classList.add("done"); cp.innerHTML = ICON.ok + "<span>" + T("copy") + "</span>";
+        setTimeout(function () { cp.classList.remove("done"); cp.innerHTML = ICON.copy + "<span>" + T("copy") + "</span>"; }, 1800);
+      });
+    };
+    term.querySelector(".term-body").appendChild(cp);
+    var right = el("div"); right.appendChild(term);
+    right.appendChild(el("p", "f-meta", T("runIt")));
+    fe.appendChild(left); fe.appendChild(right);
+
+    // the numbered index of the other tools
+    var ol = $("index"); ol.textContent = "";
+    TOOLS.filter(function (t) { return !t.featured; }).forEach(function (t, i) {
+      var x = st(t.id), li = el("li", "row");
+      li.appendChild(el("span", "num", String(i + 2).padStart(2, "0")));
+      var img = el("img"); img.src = "logos/" + t.id + ".svg"; img.alt = ""; img.loading = "lazy"; li.appendChild(img);
+      li.appendChild(el("div", null, "<div class=\"r-name\">" + esc(t.name) + "</div><p class=\"r-desc\">" + esc(t[lang]) + "</p>"));
+      li.appendChild(el("div", "r-meta",
+        (x.version ? "<span class=\"v\">v" + esc(x.version.replace(/^v/, "")) + "</span>" : "") +
+        (x.downloads >= 50 ? "<span>" + num(x.downloads) + " " + T("downloads") + "</span>" : "")));
+      var go = el("div", "r-go");
+      if (x.hasRelease !== false) go.appendChild(a("btn solid sm", ICON.down + "<span>" + T("download") + "</span>", dl(t)));
+      go.appendChild(a("btn ghost sm sq", ICON.gh, gh(t), T("page")));
       li.appendChild(go);
-      ul.appendChild(li);
+      ol.appendChild(li);
     });
 
     // games
-    var g = $("games"); g.textContent = "";
-    if (!GAMES.length) {
-      var e = el("li", "empty"); var logo = el("img"); logo.src = "assets/nakhla.svg"; logo.alt = "";
-      e.appendChild(logo); e.appendChild(el("b", null, T("soon"))); e.appendChild(document.createTextNode(T("soonText"))); g.appendChild(e);
-    } else GAMES.forEach(function (x) {
-      var li = el("li", "tile"); var head = el("div", "tile-head"); var img = el("img"); img.src = x.img || "assets/nakhla.svg"; img.alt = "";
-      head.appendChild(img); head.appendChild(el("div", "t", x.name)); li.appendChild(head); li.appendChild(el("p", "d", x[lang] || ""));
-      var go = el("div", "go"); if (x.link) go.appendChild(link("btn primary", T("play"), x.link));
-      li.appendChild(go); g.appendChild(li);
+    var g = $("games-list"); g.textContent = "";
+    if (!GAMES.length) g.appendChild(el("li", "soon", "<i></i>" + T("soon")));
+    else GAMES.forEach(function (x) {
+      var li = el("li"); li.appendChild(a("btn solid", esc(x.name) + " — " + T("play"), x.link)); g.appendChild(li);
     });
 
-    // about + faq (static, trusted strings)
-    $("about").innerHTML = T("about").map(function (p) { return "<p>" + p + "</p>"; }).join("");
+    $("about-text").innerHTML = T("about").map(function (p) { return "<p>" + p + "</p>"; }).join("");
     $("faq").innerHTML = T("faq").map(function (q) { return "<details><summary>" + q[0] + "</summary><p>" + q[1] + "</p></details>"; }).join("");
+    observe();
   }
 
-  $("lang").onclick = function () { lang = lang === "ar" ? "en" : "ar"; try { localStorage.setItem("kateba.lang", lang); } catch (_) {} render(); ink(); };
-  document.querySelectorAll(".tab").forEach(function (b) {
-    b.addEventListener("click", function () {
-      document.querySelectorAll(".tab").forEach(function (x) { x.classList.toggle("active", x === b); x.setAttribute("aria-selected", x === b); });
-      document.querySelectorAll(".panel").forEach(function (p) { p.classList.toggle("active", p.id === "tab-" + b.dataset.tab); });
-      ink();
+  // ------------------------------------------------------------------ motion
+  var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: .12, rootMargin: "0px 0px -6% 0px" }) : null;
+  function observe() {
+    var rows = document.querySelectorAll(".reveal:not(.in), .index .row:not(.in)");
+    rows.forEach(function (n, i) {
+      if (!io) { n.classList.add("in"); return; }
+      if (n.classList.contains("row")) n.style.transitionDelay = (Array.prototype.indexOf.call(n.parentNode.children, n) * 60) + "ms";
+      io.observe(n);
     });
-  });
-  function ink() {
-    var a = document.querySelector(".tab.active"), i = document.querySelector(".tabs .ink"); if (!a || !i) return;
-    i.style.left = a.offsetLeft + "px"; i.style.width = a.offsetWidth + "px";
   }
-  addEventListener("resize", ink);
-  render(); ink();
-  if (document.fonts) document.fonts.ready.then(ink);
+
+  var nav = $("nav"), links = document.querySelectorAll(".links a");
+  function onScroll() {
+    nav.classList.toggle("solid", scrollY > 40);
+    var cur = null;
+    ["tools", "games", "about"].forEach(function (id) { var s = $(id); if (s && s.getBoundingClientRect().top < innerHeight * .4) cur = id; });
+    links.forEach(function (l) { l.classList.toggle("on", l.getAttribute("href") === "#" + cur); });
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+
+  $("lang").onclick = function () { lang = lang === "ar" ? "en" : "ar"; try { localStorage.setItem("kateba.lang", lang); } catch (_) {} render(); };
+  render(); onScroll();
   fetch("assets/stats.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) { stats = d; render(); }).catch(function () {});
-
-  // ------------------------------------------------------------------ embers
-  var cv = $("embers"), cx = cv.getContext("2d"), parts = [], W = 0, H = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
-  function size() { W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; }
-  size(); addEventListener("resize", size);
-  function spawn(y) { return { x: Math.random() * W, y: y == null ? H + 10 : y, r: (Math.random() * 1.8 + .6) * dpr, vy: (Math.random() * .5 + .25) * dpr, vx: (Math.random() - .5) * .3 * dpr, a: Math.random() * .6 + .25, w: Math.random() * 6.28 }; }
-  for (var i = 0; i < 45; i++) parts.push(spawn(Math.random() * H));
-  var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  (function tick() {
-    cx.clearRect(0, 0, W, H);
-    parts.forEach(function (p, k) {
-      p.y -= p.vy; p.w += .02; p.x += p.vx + Math.sin(p.w) * .25 * dpr;
-      if (p.y < -10) parts[k] = spawn();
-      cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.283);
-      cx.fillStyle = "rgba(255," + (110 + (p.r * 30 | 0)) + ",20," + p.a + ")"; cx.shadowColor = "#ff6d00"; cx.shadowBlur = 8 * dpr; cx.fill();
-    });
-    if (!still) requestAnimationFrame(tick);
-  })();
-
-  setTimeout(function () { document.body.classList.add("entered"); }, 30);
 })();
