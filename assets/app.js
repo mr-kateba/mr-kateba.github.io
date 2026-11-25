@@ -9,7 +9,8 @@
   var TOOLS = [
     { id: "boost", name: "Blazma Boost", repo: "Blazma-Boost", copy: "irm mr-kateba.github.io/win | iex", featured: true,
       ar: "تحسين ويندوز والألعاب، وتثبيت أكثر من 200 برنامج بضغطة", en: "Windows and gaming tweaks, and 200+ apps installed in one click" },
-    { id: "tweak", name: "Blazma Tweak", repo: "Blazma-Tweak", copy: "irm mr-kateba.github.io/tweak | iex",
+    { id: "tweak", name: "Blazma Tweak", repo: "Blazma-Tweak", copy: "irm mr-kateba.github.io/tweak | iex", featured: true, badge: "new",
+      file: "https://github.com/mr-kateba/Blazma-Tweak/releases/latest/download/BlazmaTweak.ps1",
       ar: "100 تحسين لويندوز والرام والألعاب، وحذف التطبيقات الزايدة، وبرامج بدء التشغيل، وكل تعديل يرجع بضغطة", en: "100 reversible Windows, RAM and gaming tweaks, app removal and a startup manager" },
     { id: "get", name: "Blazma Get", repo: "Blazma-Get",
       ar: "مدير تحميل عربي مجاني، بديل لـ IDM", en: "A free download manager, an IDM alternative" },
@@ -36,7 +37,7 @@
       "cta.tools": "تصفّح الأدوات",
       "tools.kicker": "عائلة أدوات بلازما", "tools.title": "أدوات ويندوز، بالعربي ومجاناً.",
       tools: "أدوات", total: "تحميل", open: "مفتوحة المصدر",
-      featured: "الأشهر", download: "تحميل", copyCmd: "نسخ الأمر", page: "صفحة GitHub", copy: "نسخ", copied: "تم النسخ — الصقه في PowerShell كمسؤول",
+      featured: "الأشهر", "new": "جديد", download: "تحميل", copyCmd: "نسخ الأمر", page: "صفحة GitHub", copy: "نسخ", copied: "تم النسخ — الصقه في PowerShell كمسؤول",
       runIt: "أو شغّله مباشرة من PowerShell", downloads: "تحميل", version: "الإصدار",
       "games.kicker": "استوديو نخلة", "games.title": "ألعاب بروح عربية.",
       "games.text": "ألعاب مستقلة من ليبيا، نصنعها على مهل ونجرّبها كثير قبل ما تطلع.",
@@ -64,7 +65,7 @@
       "cta.tools": "Browse the tools",
       "tools.kicker": "The Blazma tools family", "tools.title": "Windows tools, in Arabic and free.",
       tools: "tools", total: "downloads", open: "open source",
-      featured: "Most popular", download: "Download", copyCmd: "Copy command", page: "GitHub page", copy: "Copy", copied: "Copied — paste it into PowerShell as admin",
+      featured: "Most popular", "new": "New", download: "Download", copyCmd: "Copy command", page: "GitHub page", copy: "Copy", copied: "Copied — paste it into PowerShell as admin",
       runIt: "or run it straight from PowerShell", downloads: "downloads", version: "Version",
       "games.kicker": "Nakhla Studio", "games.title": "Games with an Arabic soul.",
       "games.text": "Independent games from Libya, made slowly and play-tested a lot before release.",
@@ -111,7 +112,7 @@
   function T(k) { return TEXT[lang][k]; }
   function num(n) { return new Intl.NumberFormat(lang === "ar" ? "ar-u-nu-latn" : "en").format(n); }
   function st(id) { return stats && stats.tools && stats.tools[id] || {}; }
-  function dl(t) { return "https://mr-kateba.github.io/" + t.id + "/"; }
+  function dl(t) { return t.file || "https://mr-kateba.github.io/" + t.id + "/"; }
   function gh(t) { return "https://github.com/mr-kateba/" + t.repo; }
 
   // ------------------------------------------------------------------ render
@@ -128,41 +129,46 @@
     [[num(TOOLS.length), T("tools")], total >= 100 ? ["+" + num(Math.floor(total / 50) * 50), T("total")] : null, ["100%", T("open")]]
       .forEach(function (x) { if (x) f.appendChild(el("div", "fact", "<b dir=\"ltr\">" + x[0] + "</b><span>" + x[1] + "</span>")); });
 
-    // featured tool
-    var ft = TOOLS.filter(function (t) { return t.featured; })[0], s = st(ft.id);
+    // featured tools, side by side
     var fe = $("feature"); fe.textContent = "";
-    var left = el("div");
-    left.appendChild(el("span", "f-badge", T("featured")));
-    left.appendChild(el("h3", "f-name", "<img src=\"logos/" + ft.id + ".svg\" alt=\"\">" + esc(ft.name)));
-    left.appendChild(el("p", "f-desc", esc(ft[lang])));
-    var acts = el("div", "f-actions");
-    acts.appendChild(a("btn solid", ICON.down + "<span>" + T("download") + "</span>", dl(ft)));
-    acts.appendChild(a("btn ghost sq", ICON.gh, gh(ft), T("page")));
-    left.appendChild(acts);
-    var meta = [];
-    if (s.version) meta.push(T("version") + " <bdi dir=\"ltr\">" + esc(s.version.replace(/^v/, "")) + "</bdi>");
-    if (s.downloads >= 50) meta.push(num(s.downloads) + " " + T("downloads"));
-    if (meta.length) left.appendChild(el("div", "f-meta", meta.join(" · ")));
-    var term = el("div", "term",
-      "<div class=\"term-bar\"><i></i><i></i><i></i><span>PowerShell · Admin</span></div>" +
-      "<div class=\"term-body\"><code><em>PS&gt;</em> " + esc(ft.copy) + " <span class=\"cur\"></span></code></div>");
-    var cp = el("button", "copy", ICON.copy + "<span>" + T("copy") + "</span>"); cp.type = "button";
-    cp.onclick = function () {
-      navigator.clipboard.writeText(ft.copy).then(function () {
-        toast(T("copied")); cp.classList.add("done"); cp.innerHTML = ICON.ok + "<span>" + T("copy") + "</span>";
-        setTimeout(function () { cp.classList.remove("done"); cp.innerHTML = ICON.copy + "<span>" + T("copy") + "</span>"; }, 1800);
-      });
-    };
-    term.querySelector(".term-body").appendChild(cp);
-    var right = el("div"); right.appendChild(term);
-    right.appendChild(el("p", "f-meta", T("runIt")));
-    fe.appendChild(left); fe.appendChild(right);
+    TOOLS.filter(function (t) { return t.featured; }).forEach(function (ft) {
+      var s = st(ft.id), card = el("article", "feature" + (ft.badge ? " is-new" : ""));
+      var head = el("div", "f-head");
+      head.appendChild(el("h3", "f-name", "<img src=\"logos/" + ft.id + ".svg\" alt=\"\">" + esc(ft.name)));
+      head.appendChild(el("span", "f-badge", T(ft.badge || "featured")));
+      card.appendChild(head);
+      card.appendChild(el("p", "f-desc", esc(ft[lang])));
+      var term = el("div", "term",
+        "<div class=\"term-bar\"><i></i><i></i><i></i><span>PowerShell · Admin</span></div>" +
+        "<div class=\"term-body\"><code><em>PS&gt;</em> " + esc(ft.copy) + " <span class=\"cur\"></span></code></div>");
+      var cp = el("button", "copy", ICON.copy + "<span>" + T("copy") + "</span>"); cp.type = "button";
+      cp.onclick = function () {
+        navigator.clipboard.writeText(ft.copy).then(function () {
+          toast(T("copied")); cp.classList.add("done"); cp.innerHTML = ICON.ok + "<span>" + T("copy") + "</span>";
+          setTimeout(function () { cp.classList.remove("done"); cp.innerHTML = ICON.copy + "<span>" + T("copy") + "</span>"; }, 1800);
+        });
+      };
+      term.querySelector(".term-body").appendChild(cp);
+      card.appendChild(term);
+      var foot = el("div", "f-foot");
+      var acts = el("div", "f-actions");
+      acts.appendChild(a("btn solid", ICON.down + "<span>" + T("download") + "</span>", dl(ft)));
+      acts.appendChild(a("btn ghost sq", ICON.gh, gh(ft), T("page")));
+      foot.appendChild(acts);
+      var meta = [];
+      if (s.version) meta.push(T("version") + " <bdi dir=\"ltr\">" + esc(s.version.replace(/^v/, "")) + "</bdi>");
+      if (s.downloads >= 50) meta.push(num(s.downloads) + " " + T("downloads"));
+      if (meta.length) foot.appendChild(el("div", "f-meta", meta.join(" · ")));
+      card.appendChild(foot);
+      fe.appendChild(card);
+    });
+    var nFeat = TOOLS.filter(function (t) { return t.featured; }).length;
 
     // the numbered index of the other tools
     var ol = $("index"); ol.textContent = "";
     TOOLS.filter(function (t) { return !t.featured; }).forEach(function (t, i) {
       var x = st(t.id), li = el("li", "row");
-      li.appendChild(el("span", "num", String(i + 2).padStart(2, "0")));
+      li.appendChild(el("span", "num", String(i + 1 + nFeat).padStart(2, "0")));
       var img = el("img"); img.src = "logos/" + t.id + ".svg"; img.alt = ""; img.loading = "lazy"; li.appendChild(img);
       li.appendChild(el("div", null, "<div class=\"r-name\">" + esc(t.name) + "</div><p class=\"r-desc\">" + esc(t[lang]) + "</p>"));
       li.appendChild(el("div", "r-meta",
