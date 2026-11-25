@@ -65,6 +65,7 @@ img, svg { display: block; }
 
 /* ---------- sections */
 .sec { position: relative; max-width: var(--wrap); margin: 0 auto; padding: 110px 20px; }
+#tools { padding-bottom: 40px; }
 .kicker { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; color: var(--orange); font-size: .85rem; font-weight: 600; letter-spacing: .08em; }
 .kicker .dot { width: 9px; height: 9px; background: var(--orange); transform: rotate(45deg); box-shadow: 0 0 12px var(--orange); }
 h2 { margin: 0; font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.15; font-weight: 600; letter-spacing: -.01em; text-wrap: balance; }
@@ -118,7 +119,11 @@ html[dir=ltr] .row::before { background: linear-gradient(90deg, rgba(242, 107, 2
 .r-go { display: flex; gap: 8px; }
 
 /* ---------- Nakhla Studio band */
-.studio { max-width: none; padding: 0; background: var(--diamonds), radial-gradient(60% 80% at 50% 0%, rgba(242, 107, 29, .16), transparent 70%), var(--night-2); border-block: 1px solid var(--line); }
+.studio { max-width: none; padding: 0; isolation: isolate; }
+/* no hard line: the texture and the glow fade in and out softly */
+.studio::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--diamonds), radial-gradient(55% 60% at 50% 45%, rgba(242, 107, 29, .14), transparent 70%), var(--night-2);
+  background-position: 0 45px, 0 0, 0 0;
+  -webkit-mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent); mask-image: linear-gradient(transparent, #000 30%, #000 70%, transparent); }
 .studio-inner { max-width: 760px; margin: 0 auto; padding: 110px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
 .studio-mark { width: 76px; height: 76px; margin-bottom: 22px; filter: drop-shadow(0 0 24px rgba(242, 107, 29, .45)); animation: sway 6s ease-in-out infinite; transform-origin: 50% 90%; }
 @keyframes sway { 50% { transform: rotate(-4deg); } }
