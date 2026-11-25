@@ -25,8 +25,7 @@
   ];
   // Nakhla Studio games: { name, ar, en, img, link }
   var GAMES = [];
-  // Cover picture behind the page (e.g. "assets/cover.jpg"); empty = the ember background.
-  var COVER = "";   // e.g. "assets/cover-imad4.jpg" (Dhat al-Imad, Gary Denham, CC BY-SA 2.0)
+  // Background: the Nakhla wallpaper (assets/nakhla-wall-*.jpg), set in assets/site.css.
 
   var TEXT = {
     ar: {
@@ -82,6 +81,11 @@
     var t = document.querySelector(".toast") || document.body.appendChild(el("div", "toast"));
     t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove("show"); }, 1800);
   }
+  var ICON = {
+    down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>',
+    gh: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>'
+  };
   function link(cls, text, href) { var a = el("a", cls, text); a.href = href; a.target = "_blank"; a.rel = "noopener"; return a; }
 
   var lang = "ar";
@@ -109,23 +113,23 @@
     var ul = $("tools"); ul.textContent = "";
     TOOLS.forEach(function (t) {
       var st = stats && stats.tools && stats.tools[t.id] || {};
-      var li = el("li", "item");
+      var li = el("li", "tile");
+      var head = el("div", "tile-head");
       var img = el("img"); img.src = "logos/" + t.id + ".svg"; img.alt = ""; img.loading = "lazy";
-      var info = el("div", "info");
-      var head = el("div", "t", t.name);
-      if (st.version) { var v = el("span", "ver", st.version.replace(/^v/, "")); v.title = T("version"); head.appendChild(v); }
-      info.appendChild(head);
-      info.appendChild(el("div", "d", t[lang]));
-      if (st.downloads >= 50) info.appendChild(el("div", "meta", num(st.downloads) + " " + T("downloads")));
+      var nm = el("div"); nm.appendChild(el("div", "t", t.name));
+      if (st.version) { var v = el("span", "ver", st.version.replace(/^v/, "")); v.title = T("version"); nm.appendChild(v); }
+      head.appendChild(img); head.appendChild(nm); li.appendChild(head);
+      li.appendChild(el("p", "d", t[lang]));
+      if (st.downloads >= 50) li.appendChild(el("div", "meta", num(st.downloads) + " " + T("downloads")));
       var go = el("div", "go");
+      if (st.hasRelease !== false) { var d = link("btn primary", null, "https://mr-kateba.github.io/" + t.id + "/"); d.innerHTML = ICON.down + "<span>" + T("download") + "</span>"; go.appendChild(d); }
       if (t.copy) {
-        var c = el("button", "pill", T("copy")); c.type = "button"; c.title = t.copy;
+        var c = el("button", "btn icon"); c.type = "button"; c.title = T("copy") + ": " + t.copy; c.setAttribute("aria-label", T("copy")); c.innerHTML = ICON.copy;
         c.onclick = function () { navigator.clipboard.writeText(t.copy).then(function () { toast(T("copied")); }); };
         go.appendChild(c);
       }
-      if (st.hasRelease !== false) go.appendChild(link("pill primary", T("download"), "https://mr-kateba.github.io/" + t.id + "/"));
-      go.appendChild(link("pill", T("page"), "https://github.com/mr-kateba/" + t.repo));
-      li.appendChild(img); li.appendChild(info); li.appendChild(go);
+      var gh = link("btn icon", null, "https://github.com/mr-kateba/" + t.repo); gh.title = T("page"); gh.setAttribute("aria-label", T("page")); gh.innerHTML = ICON.gh; go.appendChild(gh);
+      li.appendChild(go);
       ul.appendChild(li);
     });
 
@@ -135,10 +139,10 @@
       var e = el("li", "empty"); var logo = el("img"); logo.src = "assets/nakhla.svg"; logo.alt = "";
       e.appendChild(logo); e.appendChild(el("b", null, T("soon"))); e.appendChild(document.createTextNode(T("soonText"))); g.appendChild(e);
     } else GAMES.forEach(function (x) {
-      var li = el("li", "item"); var img = el("img"); img.src = x.img || "assets/nakhla.svg"; img.alt = "";
-      var info = el("div", "info"); info.appendChild(el("div", "t", x.name)); info.appendChild(el("div", "d", x[lang] || ""));
-      var go = el("div", "go"); if (x.link) go.appendChild(link("pill primary", T("play"), x.link));
-      li.appendChild(img); li.appendChild(info); li.appendChild(go); g.appendChild(li);
+      var li = el("li", "tile"); var head = el("div", "tile-head"); var img = el("img"); img.src = x.img || "assets/nakhla.svg"; img.alt = "";
+      head.appendChild(img); head.appendChild(el("div", "t", x.name)); li.appendChild(head); li.appendChild(el("p", "d", x[lang] || ""));
+      var go = el("div", "go"); if (x.link) go.appendChild(link("btn primary", T("play"), x.link));
+      li.appendChild(go); g.appendChild(li);
     });
 
     // about + faq (static, trusted strings)
@@ -146,14 +150,21 @@
     $("faq").innerHTML = T("faq").map(function (q) { return "<details><summary>" + q[0] + "</summary><p>" + q[1] + "</p></details>"; }).join("");
   }
 
-  $("lang").onclick = function () { lang = lang === "ar" ? "en" : "ar"; try { localStorage.setItem("kateba.lang", lang); } catch (_) {} render(); };
+  $("lang").onclick = function () { lang = lang === "ar" ? "en" : "ar"; try { localStorage.setItem("kateba.lang", lang); } catch (_) {} render(); ink(); };
   document.querySelectorAll(".tab").forEach(function (b) {
     b.addEventListener("click", function () {
       document.querySelectorAll(".tab").forEach(function (x) { x.classList.toggle("active", x === b); x.setAttribute("aria-selected", x === b); });
       document.querySelectorAll(".panel").forEach(function (p) { p.classList.toggle("active", p.id === "tab-" + b.dataset.tab); });
+      ink();
     });
   });
-  render();
+  function ink() {
+    var a = document.querySelector(".tab.active"), i = document.querySelector(".tabs .ink"); if (!a || !i) return;
+    i.style.left = a.offsetLeft + "px"; i.style.width = a.offsetWidth + "px";
+  }
+  addEventListener("resize", ink);
+  render(); ink();
+  if (document.fonts) document.fonts.ready.then(ink);
   fetch("assets/stats.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) { stats = d; render(); }).catch(function () {});
 
   // ------------------------------------------------------------------ embers
@@ -161,7 +172,7 @@
   function size() { W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; }
   size(); addEventListener("resize", size);
   function spawn(y) { return { x: Math.random() * W, y: y == null ? H + 10 : y, r: (Math.random() * 1.8 + .6) * dpr, vy: (Math.random() * .5 + .25) * dpr, vx: (Math.random() - .5) * .3 * dpr, a: Math.random() * .6 + .25, w: Math.random() * 6.28 }; }
-  for (var i = 0; i < 70; i++) parts.push(spawn(Math.random() * H));
+  for (var i = 0; i < 45; i++) parts.push(spawn(Math.random() * H));
   var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   (function tick() {
     cx.clearRect(0, 0, W, H);
@@ -174,6 +185,5 @@
     if (!still) requestAnimationFrame(tick);
   })();
 
-  if (COVER) { var b = $("backdrop"); b.style.backgroundImage = "url('" + COVER + "')"; b.classList.add("has-image"); document.body.classList.add("has-cover"); }
   setTimeout(function () { document.body.classList.add("entered"); }, 30);
 })();
