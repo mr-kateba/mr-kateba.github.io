@@ -10,7 +10,7 @@
     { id: "boost", name: "Blazma Boost", repo: "Blazma-Boost", copy: "irm mr-kateba.github.io/win | iex", featured: true,
       ar: "تحسين ويندوز والألعاب، وتثبيت أكثر من 200 برنامج بضغطة", en: "Windows and gaming tweaks, and 200+ apps installed in one click" },
     { id: "tweak", name: "Blazma Tweak", repo: "Blazma-Tweak", copy: "irm mr-kateba.github.io/tweak | iex",
-      ar: "60 تحسين لويندوز والرام والألعاب، وكل تعديل يرجع بضغطة", en: "60 reversible Windows, RAM and gaming tweaks" },
+      ar: "100 تحسين لويندوز والرام والألعاب، وحذف التطبيقات الزايدة، وبرامج بدء التشغيل، وكل تعديل يرجع بضغطة", en: "100 reversible Windows, RAM and gaming tweaks, app removal and a startup manager" },
     { id: "get", name: "Blazma Get", repo: "Blazma-Get",
       ar: "مدير تحميل عربي مجاني، بديل لـ IDM", en: "A free download manager, an IDM alternative" },
     { id: "animation", name: "Blazma Animation", repo: "blazma-Animation",
