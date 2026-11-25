@@ -8,8 +8,8 @@ import json, os, re, urllib.request
 from pathlib import Path
 
 TOOLS = {"boost": "Blazma-Boost", "ai": "blazma-ai", "get": "Blazma-Get", "cyber": "Blazma-Cyber",
-         "sandbox": "Blazma-Sandbox", "animation": "blazma-Animation", "crosshair": "blazma-Crosshair", "nt": "blazma-nt"}
-PREFER = [r"(?i)^BlazmaBoost\.zip$", r"(?i)setup.*\.exe$", r"(?i)\.exe$", r"(?i)portable.*\.zip$", r"(?i)win.*\.zip$", r"(?i)\.zip$"]
+         "sandbox": "Blazma-Sandbox", "animation": "blazma-Animation", "crosshair": "blazma-Crosshair", "nt": "blazma-nt", "tweak": "Blazma-Tweak"}
+PREFER = [r"(?i)^BlazmaBoost\.zip$", r"(?i)^BlazmaTweak\.ps1$", r"(?i)setup.*\.exe$", r"(?i)\.exe$", r"(?i)portable.*\.zip$", r"(?i)win.*\.zip$", r"(?i)\.zip$"]
 
 def api(path):
     req = urllib.request.Request("https://api.github.com/" + path, headers={"Accept": "application/vnd.github+json", "User-Agent": "kateba-site"})

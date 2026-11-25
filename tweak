@@ -1,0 +1,8 @@
+# Blazma Tweak launcher
+#   irm mr-kateba.github.io/tweak | iex
+#
+# Runs the latest Blazma Tweak release, so this file never needs updating.
+# Source: https://github.com/mr-kateba/Blazma-Tweak
+
+$releaseUrl = 'https://github.com/mr-kateba/Blazma-Tweak/releases/latest/download/BlazmaTweak.ps1'
+& ([ScriptBlock]::Create((Invoke-RestMethod -Uri $releaseUrl))) @args

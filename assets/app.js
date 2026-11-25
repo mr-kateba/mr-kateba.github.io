@@ -9,6 +9,8 @@
   var TOOLS = [
     { id: "boost", name: "Blazma Boost", repo: "Blazma-Boost", copy: "irm mr-kateba.github.io/win | iex", featured: true,
       ar: "تحسين ويندوز والألعاب، وتثبيت أكثر من 200 برنامج بضغطة", en: "Windows and gaming tweaks, and 200+ apps installed in one click" },
+    { id: "tweak", name: "Blazma Tweak", repo: "Blazma-Tweak", copy: "irm mr-kateba.github.io/tweak | iex",
+      ar: "60 تحسين لويندوز والرام والألعاب، وكل تعديل يرجع بضغطة", en: "60 reversible Windows, RAM and gaming tweaks" },
     { id: "get", name: "Blazma Get", repo: "Blazma-Get",
       ar: "مدير تحميل عربي مجاني، بديل لـ IDM", en: "A free download manager, an IDM alternative" },
     { id: "animation", name: "Blazma Animation", repo: "blazma-Animation",
@@ -34,7 +36,7 @@
       "cta.tools": "تصفّح الأدوات",
       "tools.kicker": "عائلة أدوات بلازما", "tools.title": "أدوات ويندوز، بالعربي ومجاناً.",
       tools: "أدوات", total: "تحميل", open: "مفتوحة المصدر",
-      featured: "الأشهر", download: "تحميل", page: "صفحة GitHub", copy: "نسخ", copied: "تم النسخ — الصقه في PowerShell كمسؤول",
+      featured: "الأشهر", download: "تحميل", copyCmd: "نسخ الأمر", page: "صفحة GitHub", copy: "نسخ", copied: "تم النسخ — الصقه في PowerShell كمسؤول",
       runIt: "أو شغّله مباشرة من PowerShell", downloads: "تحميل", version: "الإصدار",
       "games.kicker": "استوديو نخلة", "games.title": "ألعاب بروح عربية.",
       "games.text": "ألعاب مستقلة من ليبيا، نصنعها على مهل ونجرّبها كثير قبل ما تطلع.",
@@ -62,7 +64,7 @@
       "cta.tools": "Browse the tools",
       "tools.kicker": "The Blazma tools family", "tools.title": "Windows tools, in Arabic and free.",
       tools: "tools", total: "downloads", open: "open source",
-      featured: "Most popular", download: "Download", page: "GitHub page", copy: "Copy", copied: "Copied — paste it into PowerShell as admin",
+      featured: "Most popular", download: "Download", copyCmd: "Copy command", page: "GitHub page", copy: "Copy", copied: "Copied — paste it into PowerShell as admin",
       runIt: "or run it straight from PowerShell", downloads: "downloads", version: "Version",
       "games.kicker": "Nakhla Studio", "games.title": "Games with an Arabic soul.",
       "games.text": "Independent games from Libya, made slowly and play-tested a lot before release.",
@@ -167,7 +169,11 @@
         (x.version ? "<span class=\"v\">v" + esc(x.version.replace(/^v/, "")) + "</span>" : "") +
         (x.downloads >= 50 ? "<span>" + num(x.downloads) + " " + T("downloads") + "</span>" : "")));
       var go = el("div", "r-go");
-      if (x.hasRelease !== false) go.appendChild(a("btn solid sm", ICON.down + "<span>" + T("download") + "</span>", dl(t)));
+      if (t.copy) {
+        var cb = el("button", "btn solid sm", ICON.copy + "<span>" + T("copyCmd") + "</span>"); cb.type = "button"; cb.title = t.copy;
+        cb.onclick = (function (cmd) { return function () { navigator.clipboard.writeText(cmd).then(function () { toast(T("copied")); }); }; })(t.copy);
+        go.appendChild(cb);
+      } else if (x.hasRelease !== false) go.appendChild(a("btn solid sm", ICON.down + "<span>" + T("download") + "</span>", dl(t)));
       go.appendChild(a("btn ghost sm sq", ICON.gh, gh(t), T("page")));
       li.appendChild(go);
       ol.appendChild(li);
