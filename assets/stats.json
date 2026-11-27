@@ -20,7 +20,7 @@
   },
   "boost": {
    "date": "2026-11-20",
-   "downloads": 81,
+   "downloads": 82,
    "file": "BlazmaBoost.zip",
    "hasRelease": true,
    "repo": "Blazma-Boost",
@@ -47,7 +47,7 @@
   },
   "get": {
    "date": "2026-11-20",
-   "downloads": 80,
+   "downloads": 81,
    "file": "BlazmaGet-Setup-1.3.1.exe",
    "hasRelease": true,
    "repo": "Blazma-Get",
@@ -74,7 +74,7 @@
   },
   "tweak": {
    "date": "2026-11-25",
-   "downloads": 5,
+   "downloads": 10,
    "file": "BlazmaTweak.ps1",
    "hasRelease": true,
    "repo": "Blazma-Tweak",
