@@ -1,17 +1,17 @@
 {
  "tools": {
   "ai": {
-   "date": "2026-10-02",
-   "downloads": 3,
-   "file": "Blazma-AI-Setup-0.1.0.exe",
+   "date": "2026-11-27",
+   "downloads": 31,
+   "file": "Blazma-AI-Setup-0.2.2.exe",
    "hasRelease": true,
    "repo": "blazma-ai",
-   "url": "https://github.com/mr-kateba/blazma-ai/releases/download/v0.1.0/Blazma-AI-Setup-0.1.0.exe",
-   "version": "v0.1.0"
+   "url": "https://github.com/mr-kateba/blazma-ai/releases/download/v0.2.2/Blazma-AI-Setup-0.2.2.exe",
+   "version": "v0.2.2"
   },
   "animation": {
    "date": "2026-11-19",
-   "downloads": 72,
+   "downloads": 73,
    "file": "BlazmaAnimation-1.0.1-setup.exe",
    "hasRelease": true,
    "repo": "blazma-Animation",
